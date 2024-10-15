@@ -2,9 +2,9 @@
 
 Welcome to the **LitServe Examples** repository! This repository contains a collection of example applications built using [LitServe](https://github.com/Lightning-AI/litserve), a high-performance AI model serving engine.
 
-## 📂 Example Applications
+## 📂 Applications
 
-Here is a list of example applications included in this repository:
+Here is a list of applications included in this repository:
 
 | Example Name                                                        | Description                                                    |
 |---------------------------------------------------------------------|----------------------------------------------------------------|
