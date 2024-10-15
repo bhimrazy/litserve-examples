@@ -23,6 +23,26 @@ Ensure you have the following installed:
     pip install -r requirements.txt
     ```
 
+    It also requires the command-line tool ffmpeg to be installed on your system, which is available from most package managers:[Reference](https://github.com/openai/whisper?tab=readme-ov-file#setup)
+    ```sh
+    # on Ubuntu or Debian
+    sudo apt update && sudo apt install ffmpeg
+
+    # on Arch Linux
+    sudo pacman -S ffmpeg
+
+    # on MacOS using Homebrew (https://brew.sh/)
+    brew install ffmpeg
+
+    # on Windows using Chocolatey (https://chocolatey.org/)
+    choco install ffmpeg
+
+    # on Windows using Scoop (https://scoop.sh/)
+    scoop install ffmpeg
+    ```
+
+
+
 ### Running the Server
 
 1. **Navigate to the API directory:**
