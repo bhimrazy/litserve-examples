@@ -22,5 +22,5 @@ class WhisperAPI(ls.LitAPI):
 
 if __name__ == "__main__":
     api = WhisperAPI()
-    server = ls.LitServer(api, api_path="/transcribe")
+    server = ls.LitServer(api, api_path="/transcribe", timeout=60)
     server.run(port=8000)
