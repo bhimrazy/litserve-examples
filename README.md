@@ -6,7 +6,7 @@ Welcome to the **LitServe Examples** repository! This repository contains a coll
 
 Here is a list of applications included in this repository:
 
-| Example Name                                                        | Description                                                    |
+| Name                                                        | Description                                                    |
 |---------------------------------------------------------------------|----------------------------------------------------------------|
 | [**Whisper API**](./whisper-stt-api/) | Speech to Text API powered by OpenAI Whisper |
 | [**Chat with Llama 3.2-Vision Multimodal LLM**](https://github.com/bhimrazy/chat-with-llama-3.2-vision)                       | A conversational AI using Llama 3.2 with vision capabilities.   |
