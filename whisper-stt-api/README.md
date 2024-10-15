@@ -56,6 +56,8 @@ To transcribe audio, send a POST request to the `/transcribe` endpoint with the 
 
 ```sh
 curl -X POST "http://localhost:8000/transcribe" -F "audio=@path/to/your/audio/file.wav"
+
+# eg: curl -X POST "http://localhost:8000/transcribe" -F "audio=nova.wav"
 ```
 
 ### Example Response
