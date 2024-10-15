@@ -44,13 +44,6 @@ Ensure you have the following installed:
 
 
 ### Running the Server
-
-1. **Navigate to the API directory:**
-    ```sh
-    cd whisper-stt-api
-    ```
-
-2. **Start the server:**
     ```sh
     python server.py
     ```
