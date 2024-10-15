@@ -1,7 +1,9 @@
-# Whisper STT API
+<h1 align="center">Whisper Speech to Text (STT) API</h1>
 
 Welcome to the **Whisper STT API**! This API leverages OpenAI's Whisper model to provide state-of-the-art speech-to-text capabilities. Follow this guide to get started quickly.
 > Automatic Speech Recognition (ASR), also known as Speech to Text (STT), is the task of transcribing a given audio to text. It has many applications, such as voice user interfaces.
+
+![image](https://github.com/user-attachments/assets/1e5b83be-7ddc-4920-bf94-fc3fa7a5a68c)
 
 ## 🚀 Getting Started
 
