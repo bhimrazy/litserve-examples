@@ -55,9 +55,14 @@ The server will start on `http://localhost:8000/transcribe`.
 To transcribe audio, send a POST request to the `/transcribe` endpoint with the audio file. Here's an example using `curl`:
 
 ```sh
-curl -X POST "http://localhost:8000/transcribe" -F "audio=@path/to/your/audio/file.wav"
+curl -X POST "http://localhost:8000/transcribe" -F "audio=@path/to/your/audio/file"
 
 # eg: curl -X POST "http://localhost:8000/transcribe" -F "audio=nova.wav"
+```
+
+Test using python client
+```sh
+python client.py -a path/to/your/audio/file
 ```
 
 ### Example Response
