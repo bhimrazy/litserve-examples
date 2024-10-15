@@ -24,9 +24,9 @@ python server.py
 ## 📖 Documentation
 Explore the following documentation to learn more about how to use LitServe effectively:
 
-[Getting Started Guide](https://lightning.ai/docs/litserve/home/get-started)
-[Installation Guide](https://lightning.ai/docs/litserve/home/install)
-[Advanced Features](https://lightning.ai/docs/litserve/features)
+- [Getting Started Guide](https://lightning.ai/docs/litserve/home/get-started)
+- [Installation Guide](https://lightning.ai/docs/litserve/home/install)
+- [Advanced Features](https://lightning.ai/docs/litserve/features)
 
 ## 🤝 Contributing
 We welcome contributions from the community! If you'd like to contribute to this repository, please read our [Contributing Guidelines](./CONTRIBUTING.md) to get started.
