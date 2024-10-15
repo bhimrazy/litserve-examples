@@ -23,7 +23,7 @@ Ensure you have the following installed:
     pip install -r requirements.txt
     ```
 
-    It also requires the command-line tool ffmpeg to be installed on your system, which is available from most package managers:[Reference](https://github.com/openai/whisper?tab=readme-ov-file#setup)
+    It also requires the command-line tool ffmpeg to be installed on your system, which is available from most package managers: [Readmore](https://github.com/openai/whisper?tab=readme-ov-file#setup)
     ```sh
     # on Ubuntu or Debian
     sudo apt update && sudo apt install ffmpeg
