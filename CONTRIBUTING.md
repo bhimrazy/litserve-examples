@@ -10,4 +10,4 @@ Thank you for considering contributing to the LitServe Examples repository! We w
 
 ## Code of Conduct
 
-Please be respectful to other contributors and maintain a positive environment. For more information, see our Code of Conduct guidelines.
+Please be respectful to other contributors and maintain a positive environment. For more information, see our [Code of Conduct](./CODE_OF_CONDUCT.md) guidelines.
