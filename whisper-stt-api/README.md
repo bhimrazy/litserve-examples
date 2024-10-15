@@ -7,7 +7,7 @@ Welcome to the **Whisper API**! This API leverages OpenAI's Whisper model to pro
 ### Prerequisites
 
 Ensure you have the following installed:
-- Python 3.7+
+- Python 3.8+
 - `pip` (Python package installer)
 
 ### Installation
