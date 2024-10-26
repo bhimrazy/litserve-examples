@@ -1,0 +1,71 @@
+name: CI Testing
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      # Step 3: Cache pip dependencies
+      - name: Cache pip
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      # Step 4: Install Ruff for linting
+      - name: Install Ruff
+        run: pip install ruff
+
+      # Step 5: Run Ruff for linting (configurable via pyproject.toml)
+      - name: Run Ruff Lint
+        run: ruff . --show-fixes  # Use pyproject.toml or ruff.toml if present
+
+      # Step 6: Set up virtualenv and discover all directories containing Python files
+      - name: Discover and test all folders
+        run: |
+          # Create a virtual environment to isolate dependencies
+          python -m venv venv
+          source venv/bin/activate
+          
+          # Find all subdirectories with Python code
+          for folder in $(find . -type d -mindepth 1 -maxdepth 1); do
+            echo "Processing $folder"
+
+            # Install dependencies if requirements.txt is present
+            if [ -f "$folder/requirements.txt" ]; then
+              echo "Installing dependencies for $folder"
+              pip install -r "$folder/requirements.txt"
+            fi
+
+            # Run tests if test files are present
+            if [ -n "$(find "$folder" -name "test*.py")" ]; then
+              echo "Running tests in $folder"
+              pytest "$folder" --disable-warnings
+            else
+              echo "No tests found in $folder"
+            fi
+          done
+
+      # Step 7: Deactivate virtual environment
+      - name: Deactivate virtual environment
+        run: deactivate
