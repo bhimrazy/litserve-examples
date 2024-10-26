@@ -38,7 +38,7 @@ jobs:
 
       # Step 5: Run Ruff for linting (configurable via pyproject.toml)
       - name: Run Ruff Lint
-        run: ruff . --show-fixes  # Use pyproject.toml or ruff.toml if present
+        run: ruff check --show-fixes  # Use pyproject.toml or ruff.toml if present
 
       # Step 6: Set up virtualenv and discover all directories containing Python files
       - name: Discover and test all folders
