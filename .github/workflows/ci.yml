@@ -65,7 +65,3 @@ jobs:
               echo "No tests found in $folder"
             fi
           done
-
-      # Step 7: Deactivate virtual environment
-      - name: Deactivate virtual environment
-        run: deactivate
