@@ -46,5 +46,5 @@ class StableDiffusionAPI(LitAPI):
 
 if __name__ == "__main__":
     api = StableDiffusionAPI()
-    server = LitServer(api, timeout=False)
+    server = LitServer(api, api_path="/generate", timeout=False)
     server.run(port=8000)
