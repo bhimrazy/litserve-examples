@@ -1,3 +1,5 @@
+bitsandbytes
 diffusers
 litserve
+sentencepiece
 transformers

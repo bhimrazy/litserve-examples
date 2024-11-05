@@ -1,9 +1,14 @@
-import torch
-from litserve import LitServer, LitAPI
-from diffusers import StableDiffusion3Pipeline
-from pydantic import BaseModel
 from io import BytesIO
+
+import torch
+from diffusers import (
+    BitsAndBytesConfig,
+    SD3Transformer2DModel,
+    StableDiffusion3Pipeline,
+)
 from fastapi import Response
+from litserve import LitAPI, LitServer
+from pydantic import BaseModel
 
 
 class ImageGenerationRequest(BaseModel):
@@ -15,8 +20,21 @@ class ImageGenerationRequest(BaseModel):
 
 class StableDiffusionAPI(LitAPI):
     def setup(self, device):
+        model_id = "stabilityai/stable-diffusion-3.5-medium"
+        nf4_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.bfloat16,
+        )
+        model_nf4 = SD3Transformer2DModel.from_pretrained(
+            model_id,
+            subfolder="transformer",
+            quantization_config=nf4_config,
+            torch_dtype=torch.bfloat16,
+        )
+
         self.pipe = StableDiffusion3Pipeline.from_pretrained(
-            "stabilityai/stable-diffusion-3.5-medium", torch_dtype=torch.bfloat16
+            model_id, transformer=model_nf4, torch_dtype=torch.bfloat16
         )
         self.pipe = self.pipe.to(device)
 
