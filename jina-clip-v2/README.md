@@ -1,4 +1,4 @@
-<h1 align="center">Whisper Speech to Text (STT) API</h1>
+<h1 align="center">Jina CLIP v2 Multilingual Multimodal Embeddings API</h1>
 
 Welcome to the **Jina CLIP V2 API**! This API leverages the cutting-edge Jina CLIP V2 model to provide multilingual and multimodal (text and image) embeddings. With support for 89 languages, high-resolution image processing, and advanced embedding capabilities, this API is perfect for powering neural information retrieval and multimodal GenAI applications.
 
