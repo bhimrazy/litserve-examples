@@ -1,4 +1,9 @@
 <h1 align="center">Jina CLIP v2 Multilingual Multimodal Embeddings API</h1>
+<div align="center">
+<a target="_blank" href="https://lightning.ai/bhimrajyadav/studios/deploy-jina-clip-v2-a-guide-to-multilingual-multimodal-embeddings-api-with-litserve">
+  <img src="https://pl-bolts-doc-images.s3.us-east-2.amazonaws.com/app-2/studio-badge.svg" alt="Open In Studio"/>
+</a>
+</div>
 
 Welcome to the **Jina CLIP V2 API**! This API leverages the cutting-edge Jina CLIP V2 model to provide multilingual and multimodal (text and image) embeddings. With support for 89 languages, high-resolution image processing, and advanced embedding capabilities, this API is perfect for powering neural information retrieval and multimodal GenAI applications.
 
