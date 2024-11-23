@@ -19,7 +19,7 @@ Ensure you have the following installed:
 1. **Clone the repository:**
     ```sh
     git clone https://github.com/bhimrazy/litserve-examples.git
-    cd whisper-stt-api
+    cd jina-clip-v2
     ```
 
 2. **Install the required dependencies:**
