@@ -6,7 +6,7 @@ client = OpenAI(
 )
 
 response = client.embeddings.create(
-    model="text-embedding-ada-002",
+    model="jinaai/jina-embeddings-v2-small-en",
     input="The food was delicious and the waiter...",
     encoding_format="float",
 )
