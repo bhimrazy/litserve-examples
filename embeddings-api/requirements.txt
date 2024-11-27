@@ -1,0 +1,3 @@
+fastembed
+litserve
+openai
