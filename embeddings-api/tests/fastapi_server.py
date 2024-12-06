@@ -9,7 +9,7 @@ model = TextEmbedding("jinaai/jina-embeddings-v2-small-en")
 
 
 class EmbeddingRequest(BaseModel):
-    input: Union [str, List[str]]
+    input: Union[str, List[str]]
     model: str
     encoding_format: str
 
@@ -42,3 +42,9 @@ async def get_embeddings(request: EmbeddingRequest):
     ]
 
     return EmbeddingResponse(data=response_data, model=request.model, object="list")
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
