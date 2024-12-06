@@ -31,6 +31,11 @@ async def read_root():
     return {"message": "Welcome to the embeddings API"}
 
 
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
+
+
 @app.post("/v1/embeddings", response_model=EmbeddingResponse)
 async def get_embeddings(request: EmbeddingRequest):
     docs = [request.input] if isinstance(request.input, str) else request.input
@@ -47,4 +52,4 @@ async def get_embeddings(request: EmbeddingRequest):
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8001, log_level="warning")
