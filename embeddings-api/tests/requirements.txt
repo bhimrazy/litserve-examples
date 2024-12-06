@@ -1,4 +1,8 @@
 fastapi[standard]
 httpx
+psutil
+pytest
+requests
+tqdm
 torch
 uvicorn

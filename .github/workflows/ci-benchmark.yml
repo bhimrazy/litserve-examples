@@ -1,10 +1,6 @@
-name: Run parity tests
+name: Run Benchmark tests
 
 on:
-  workflow_run:
-    workflows: ["CI Testing"]
-    types:
-      - completed
   push:
     branches: [main, "release/*"]
   pull_request:
