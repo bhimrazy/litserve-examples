@@ -1,0 +1,4 @@
+fastapi[standard]
+httpx
+torch
+uvicorn

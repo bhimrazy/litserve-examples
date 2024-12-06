@@ -2,7 +2,5 @@ fastembed
 litserve
 openai
 
-# tests
-httpx
-fastapi[standard]
-uvicorn
+# for gpu support
+# fastembed-gpu
