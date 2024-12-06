@@ -51,7 +51,7 @@ def benchmark(
     concurrency: int = 100,
     port: int = 8000,
     run_id: int = 0,
-):
+) -> dict:
     """Run a benchmark on the given send_request function."""
 
     start_time = time.time()  # Start the benchmark timer
@@ -104,7 +104,7 @@ def benchmark(
     return metrics
 
 
-def run_benchmark(runs: int = 10, warmup: int = 1, **config):
+def run_benchmark(runs: int = 10, warmup: int = 1, **config) -> dict:
     """Run the benchmark multiple times and calculate the average metrics."""
     results = []
     for i in range(runs + warmup):
@@ -119,12 +119,14 @@ def run_benchmark(runs: int = 10, warmup: int = 1, **config):
     for key in results[0].keys():
         avg_metrics[key] = sum(result[key] for result in results) / runs
 
-    print("Average Benchmark Metrics")
-    print("-" * 50)
+    logging.info("Average Benchmark Metrics")
+    logging.info("-" * 50)
 
     for key, value in avg_metrics.items():
-        print(f"{key}: {value}")
-    print("-" * 50)
+        logging.info(f"{key}: {value}")
+    logging.info("-" * 50)
+
+    return avg_metrics
 
 
 if __name__ == "__main__":
@@ -133,7 +135,7 @@ if __name__ == "__main__":
     print(
         f"Running benchmark with {num_of_inputs} inputs, each with approx word count: {word_count}"
     )
-    run_benchmark(
+    metrics = run_benchmark(
         runs=10,
         warmup=1,
         num_of_inputs=num_of_inputs,
@@ -141,3 +143,5 @@ if __name__ == "__main__":
         concurrency=100,
         port=8000,
     )
+
+    print("Final Benchmark Metrics", metrics)
