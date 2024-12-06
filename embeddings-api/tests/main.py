@@ -89,6 +89,16 @@ def run_litserve_benchmark(num_of_runs, warmup):
     )
 
 
+@run_python_script("embeddings-api/tests/litserve_server_with_multi_worker.py")
+def run_litserve_multi_worker_benchmark(num_of_runs, warmup):
+    port = 8002
+    logging.info(f"Running the benchmark on port {port}")
+    check_health(port)
+    run_benchmark(
+        runs=num_of_runs, warmup=warmup, port=port, num_of_inputs=1, **CONF[device]
+    )
+
+
 def main():
     num_of_runs = 10
     warmup = 2
@@ -102,6 +112,9 @@ def main():
 
     logging.info("Running the benchmark on LitServe server")
     run_litserve_benchmark(num_of_runs, warmup)
+
+    logging.info("Running the benchmark on LitServe server with multi worker")
+    run_litserve_multi_worker_benchmark(num_of_runs, warmup)
 
 
 if __name__ == "__main__":
