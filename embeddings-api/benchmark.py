@@ -1,4 +1,5 @@
-""" "Benchmarking the embeddings API
+"""
+Benchmarking the embeddings API
 
 Adapted from https://github.com/Lightning-AI/LitServe/blob/main/tests/parity_fastapi/benchmark.py
 """
