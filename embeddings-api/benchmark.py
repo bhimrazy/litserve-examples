@@ -11,6 +11,8 @@ from typing import Tuple
 import requests
 from tqdm import tqdm
 
+logging.basicConfig(level=logging.INFO)
+
 SERVER_URL = "http://localhost:{}/v1/embeddings"
 
 INPUT_TEXT = """
