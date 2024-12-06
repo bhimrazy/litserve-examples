@@ -43,7 +43,7 @@ jobs:
       # Step 4: Install Dependencies
       - name: Install Dependencies
         run: |
-          find . -name 'requirements.txt' -exec pip install -r {} +
+          find . -name 'requirements.txt' -exec sh -c 'if [ -s {} ]; then pip install -r {}; fi' \;
 
       - name: Embedding Performance Test
         run: export PYTHONPATH=$PWD && python embeddings-api/tests/main.py
