@@ -2,11 +2,9 @@ name: CI Testing
 
 on:
   push:
-    branches:
-      - main
+    branches: [main, "release/*"]
   pull_request:
-    branches:
-      - main
+    branches: [main, "release/*"]
 
 jobs:
   lint-and-test:
@@ -21,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
       # Step 3: Cache pip dependencies
       - name: Cache pip
@@ -38,7 +36,7 @@ jobs:
 
       # Step 5: Run Ruff for linting (configurable via pyproject.toml)
       - name: Run Ruff Lint
-        run: ruff check --show-fixes  # Use pyproject.toml or ruff.toml if present
+        run: ruff check --show-fixes # Use pyproject.toml or ruff.toml if present
 
       # Step 6: Set up virtualenv and discover all directories containing Python files
       - name: Discover and test all folders
@@ -46,7 +44,7 @@ jobs:
           # Create a virtual environment to isolate dependencies
           python -m venv venv
           source venv/bin/activate
-          
+
           # Find all subdirectories with Python code
           for folder in $(find . -type d -mindepth 1 -maxdepth 1); do
             echo "Processing $folder"
