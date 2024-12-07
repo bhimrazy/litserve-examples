@@ -5,9 +5,19 @@
 </a>
 </div>
 
-Welcome to the **Embeddings API**! This API utilizes OpenAI Embedding Spec from LitServe to serve embedding models with OpenAI Embedding API Compatibility. Here, [LitServe](https://github.com/Lightning-AI/litserve) plays a crucial role in serving these models which helps to plug and play with any model. In this tutorial, we will be using [FastEmbed](https://github.com/qdrant/fastembed) to generate embeddings.
+Welcome to the Embeddings API! This project demonstrates how to build and scale an embeddings API using the OpenAI Embedding Spec with LitServe.
+
+## Overview
+
+This API combines three powerful tools to deliver fast and flexible embedding services:
+
+- 🚀 **LitServe** - Powers the API infrastructure ([GitHub](https://github.com/Lightning-AI/litserve))
+- 🔌 **OpenAI Embedding Spec** - Ensures API compatibility
+- ⚡ **FastEmbed** - Generates high-quality embeddings ([GitHub](https://github.com/qdrant/fastembed))
 
 > FastEmbed is a lightweight, fast, Python library built for embedding generation. 
+
+Get started quickly with any embedding model using our OpenAI-compatible API interface!
 
 ![image](https://github.com/user-attachments/assets/d078f4a3-3b7a-4932-b69d-1fdf8ceb0031)
 
