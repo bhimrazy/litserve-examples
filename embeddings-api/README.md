@@ -5,24 +5,18 @@
 </a>
 </div>
 
-Welcome to the Embeddings API! This project demonstrates how to build and scale an embeddings API using the OpenAI Embedding Spec with LitServe.
+## 🎯 Overview
 
-## Overview
+A production-ready embeddings API that combines:
 
-This API combines three powerful tools to deliver fast and flexible embedding services:
-
-- 🚀 **LitServe** - Powers the API infrastructure ([GitHub](https://github.com/Lightning-AI/litserve))
-- 🔌 **OpenAI Embedding Spec** - Ensures API compatibility
-- ⚡ **FastEmbed** - Generates high-quality embeddings ([GitHub](https://github.com/qdrant/fastembed))
-
-> FastEmbed is a lightweight, fast, Python library built for embedding generation. 
-
-Get started quickly with any embedding model using our OpenAI-compatible API interface!
+- 🚀 **LitServe** - High-performance API infrastructure
+- 🔌 **OpenAI Embedding Spec** - Industry-standard API compatibility 
+- ⚡ **FastEmbed** - Efficient embedding generation
 
 ![embeddings-api-using-openai-embedding-spec](https://github.com/user-attachments/assets/acbb61c6-74e5-4d8a-a69e-5c78a3de2485)
 
 
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
 
@@ -30,31 +24,28 @@ Ensure you have the following installed:
 - Python 3.8+
 - `pip` (Python package installer)
 
-### Installation
+### Setup
 
-1. **Clone the repository:**
-    ```sh
-    git clone https://github.com/bhimrazy/litserve-examples.git
-    cd embeddings-api
-    ```
+```bash
+# Clone repository
+git clone https://github.com/bhimrazy/litserve-examples.git
+cd embeddings-api
 
-2. **Install the required dependencies:**
-    ```sh
-    pip install -r requirements.txt
-    ```
+# Install dependencies
+pip install -r requirements.txt
 
-### Running the Server
-    ```sh
-    python server.py
-    ```
+# Start server
+python server.py
+```
 
-The server will start on `http://localhost:8000/v1/embeddings`.
+> The server will start on `http://localhost:8000/v1/embeddings`.
 
-### Making a Request
+### Usage
 
-To generate embeddings, send a POST request to the `/v1/embeddings` endpoint with the required inputs. Here's an example using `curl`:
-**Text Embedding**
+Generate embeddings using cURL:
+
 ```sh
+
 curl http://localhost:8000/v1/embeddings \
   -H "Content-Type: application/json" \
   -d '{
@@ -64,36 +55,33 @@ curl http://localhost:8000/v1/embeddings \
   }'
 ```
 
-Test using python client
+Or using the Python client:
 ```sh
 python client.py
 ```
 
-### Example Response
+### Response Format
 
 ```json
 {
-    "data": [
-        {
-            "index": 0,
-            "embedding": [
-                0.05936763063073158,
-                ...,
-                0.01047902274876833,
-            ],
-            "object": "embedding",
-        }
-    ],
+    "data": [{
+        "index": 0,
+        "embedding": [0.059, ..., 0.010],
+        "object": "embedding"
+    }],
     "model": "jinaai/jina-embeddings-v2-small-en",
     "object": "list",
-    "usage": {"prompt_tokens": 0, "total_tokens": 0},
+    "usage": {
+        "prompt_tokens": 0,
+        "total_tokens": 0
+    }
 }
 ```
-## 📚 Documentation
+## 📚 Resources
 
 For more detailed information, refer to the following resources:
 - [FastEmbed Documentation](https://qdrant.github.io/fastembed/)
-- [LitServe Documentation](https://github.com/Lightning-AI/litserve)
+- [LitServe Documentation](https://lightning.ai/docs/litserve/home)
 
 ## 🤝 Contributing
 
@@ -106,3 +94,4 @@ This project is licensed under the [Apache License](../LICENSE).
 ---
 
 Happy coding! 🎉
+Built with ❤️ using [LitServe](https://github.com/Lightning-AI/litserve)
