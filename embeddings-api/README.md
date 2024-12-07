@@ -19,7 +19,8 @@ This API combines three powerful tools to deliver fast and flexible embedding se
 
 Get started quickly with any embedding model using our OpenAI-compatible API interface!
 
-![image](https://github.com/user-attachments/assets/d078f4a3-3b7a-4932-b69d-1fdf8ceb0031)
+![embeddings-api-using-openai-embedding-spec](https://github.com/user-attachments/assets/acbb61c6-74e5-4d8a-a69e-5c78a3de2485)
+
 
 ## 🚀 Getting Started
 
