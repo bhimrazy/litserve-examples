@@ -6,6 +6,7 @@ Adapted from https://github.com/Lightning-AI/LitServe/blob/main/tests/parity_fas
 
 import concurrent.futures
 import logging
+import os
 import time
 from typing import Tuple
 
@@ -14,7 +15,7 @@ from tqdm import tqdm
 
 logging.basicConfig(level=logging.INFO)
 
-SERVER_URL = "http://localhost:{}/v1/embeddings"
+SERVER_URL = os.getenv("SERVER_URL", "http://localhost:{}/v1/embeddings")
 
 INPUT_TEXT = """
 LitServe, developed by Lightning AI, is an advanced serving engine designed to deploy AI models with exceptional speed and flexibility. 
