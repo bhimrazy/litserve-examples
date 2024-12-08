@@ -32,6 +32,11 @@ class EmbeddingAPI(LitAPI):
 if __name__ == "__main__":
     api = EmbeddingAPI()
     server = LitServer(
-        api, spec=OpenAIEmbeddingSpec(), max_batch_size=8, batch_timeout=0.1
+        api,
+        accelerator="cpu",
+        spec=OpenAIEmbeddingSpec(),
+        max_batch_size=8,
+        batch_timeout=0.1,
+        workers_per_device=2,
     )
     server.run(port=8000, generate_client_file=False)

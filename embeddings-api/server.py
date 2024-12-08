@@ -18,5 +18,5 @@ class EmbeddingAPI(LitAPI):
 
 if __name__ == "__main__":
     api = EmbeddingAPI()
-    server = LitServer(api, spec=OpenAIEmbeddingSpec())
+    server = LitServer(api, accelerator="cpu", spec=OpenAIEmbeddingSpec())
     server.run(port=8000, generate_client_file=False)
