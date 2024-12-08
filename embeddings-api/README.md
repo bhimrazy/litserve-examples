@@ -1,6 +1,6 @@
 <h1 align="center">Build and Scale Embeddings API Like a Pro using OpenAI EmbeddingSpec with LitServe</h1>
 <div align="center">
-<a target="_blank" href="https://lightning.ai/bhimrajyadav/studios/deploy-jina-clip-v2-a-guide-to-multilingual-multimodal-embeddings-api-with-litserve">
+<a target="_blank" href="https://lightning.ai/bhimrajyadav/studios/build-and-scale-embeddings-api-like-a-pro-using-openai-embeddingspec-with-litserve">
   <img src="https://pl-bolts-doc-images.s3.us-east-2.amazonaws.com/app-2/studio-badge.svg" alt="Open In Studio"/>
 </a>
 </div>
