@@ -1,0 +1,3 @@
+litserve
+openai
+sentence_transformers
