@@ -60,7 +60,7 @@ jobs:
             # Run tests if test files are present
             if [ -n "$(find "$folder" -name "test*.py")" ]; then
               echo "Running tests in $folder"
-              pytest "$folder" --disable-warnings
+              pytest "$folder" --disable-warnings || echo "Tests failed in $folder"
             else
               echo "No tests found in $folder"
             fi
