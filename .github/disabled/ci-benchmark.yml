@@ -42,4 +42,4 @@ jobs:
           find . -name 'requirements.txt' -exec sh -c 'if [ -s {} ]; then pip install -r {}; fi' \;
 
       - name: Embedding Performance Test
-        run: export PYTHONPATH=$PWD # && python embeddings-api/tests/main.py
+        run: export PYTHONPATH=$PWD && python embeddings-api/tests/main.py
