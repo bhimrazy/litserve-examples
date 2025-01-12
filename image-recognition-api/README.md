@@ -1,8 +1,9 @@
 <h1 align="center">ImageRecognition API with LitServe</h1>
 
-Welcome to the **ImageRecognition API**! This API enables powerful and efficient image recognition capabilities, seamlessly deployed using LitServe. Whether you're building an app for e-commerce, healthcare, or any other domain, this API delivers fast, reliable, and easy-to-integrate solutions.
+Welcome to the **ImageRecognition API**! This API enables powerful and efficient image recognition capabilities, seamlessly deployed using LitServe.
 
-![ImageRecognition API](https://github.com/user-attachments/assets/a9a195b3-8fab-4e84-957e-9a522aa83ad4)
+![ImageRecognition API](https://github.com/user-attachments/assets/6184e81f-a60b-4d22-b9e6-e2a7741772c1)
+
 
 ## 🚀 Getting Started
 
