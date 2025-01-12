@@ -54,13 +54,13 @@ jobs:
       - name: Discover and test all folders
         run: |
           source venv/bin/activate
-          for folder in $(find . -type d -mindepth 1 -maxdepth 1 ! -name '.*'); do
+          for folder in $(find . -type d -mindepth 1 -maxdepth 1 ! -name '.*' ! -name 'venv'); do
             echo "Processing $folder"
 
             # Run tests if test files are present
             if [ -n "$(find "$folder" -name "test*.py")" ]; then
               echo "Running tests in $folder"
-              pytest "$folder" --disable-warnings || echo "Tests failed in $folder"
+              pytest "$folder" || echo "Tests failed in $folder"
             else
               echo "No tests found in $folder"
             fi
