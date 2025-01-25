@@ -59,7 +59,7 @@ def display_chat_history(show_clear_button=False):
             content = content.replace(think_content, "")
             think_content = format_assistant_content(think_content)
         with st.chat_message(role):
-            if think_content:
+            if think_content and len(think_content) > 0:
                 with st.expander("Thinking complete!"):
                     st.markdown(think_content)
             st.markdown(content)
