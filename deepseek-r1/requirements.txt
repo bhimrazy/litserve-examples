@@ -1,0 +1,5 @@
+accelerate
+litserve
+openai
+streamlit
+transformers
