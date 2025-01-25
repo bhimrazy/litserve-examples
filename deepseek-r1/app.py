@@ -99,6 +99,7 @@ def main():
                 model="deepseek-r1",
                 messages=messages,
                 stream=True,
+                max_completion_tokens=2048
             )
 
             # thinking part
