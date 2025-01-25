@@ -13,7 +13,7 @@ class DeepSeekR1API(ls.LitAPI):
     def setup(self, device):
         self.device = device
 
-        model_id = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
+        model_id = "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
 
         self.tokenizer = AutoTokenizer.from_pretrained(model_id)
         self.model = AutoModelForCausalLM.from_pretrained(model_id).to(self.device)
