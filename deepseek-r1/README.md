@@ -1,49 +1,67 @@
 <h1 align="center">Chat with DeepSeek-R1</h1>
 
 ## 🎯 Overview
-✨ Interactive AI Chat Powered by LitServe, Streamlit, and an OpenAI-Compatible API 💡
 
-🔥 With this setup, you get:
- ✅ Effortlessly chat with DeepSeek-R1 in real time.
- ✅ Leverage OpenAI-compatible APIs for seamless integration with your apps.
- ✅ Deploy quickly and scale efficiently using the power of LitServe.
+✨ **Interactive AI Chat** Powered by LitServe, Streamlit, and an OpenAI-Compatible API 💡
 
+[https://github.com/user-attachments/assets/48fcff5a-e058-4f91-ada9-042bcdc05d2a](https://github.com/user-attachments/assets/48fcff5a-e058-4f91-ada9-042bcdc05d2a)
+
+🔥 **Why Choose This?**
+
+- ✅ Real-time chat experience with **DeepSeek-R1**.
+- ✅ Seamlessly integrate with your apps via **OpenAI-compatible APIs**.
+- ✅ Effortlessly deploy and scale with **LitServe's** capabilities.
+
+---
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
-Ensure you have the following installed:
-- Python 3.8+
-- `pip` (Python package installer)
+Before you begin, ensure you have:
+
+- **Python 3.8+** installed.
+- `pip`, the Python package installer.
 
 ### Setup
 
-```bash
-# Clone repository
-git clone https://github.com/bhimrazy/litserve-examples.git
-cd deepseek-r1
+Follow these steps to get started:
 
-# Install dependencies
+```bash
+# Clone the repository
+git clone https://github.com/bhimrazy/litserve-examples.git
+cd litserve-examples/deepseek-r1
+
+# Install required dependencies
 pip install -r requirements.txt
 
-# Start server
+# Start the server
 python server.py
 
-# Start streamlit app
+# Launch the Streamlit app
 streamlit run app.py
 ```
 
-> The server will start on `http://localhost:8000`.
-> The streamlit app will start on: `http://localhost:8501`.
+> - **Server URL:** `http://localhost:8000`
+> - **Streamlit App URL:** `http://localhost:8501`
+
+---
 
 ### Usage
 
-Generate response using cURL:
+#### Using the Streamlit Interface
+
+Interact with the AI using the intuitive Streamlit web app.
+
+![image](https://github.com/user-attachments/assets/df1a5ca3-0f65-4a7f-bdf3-f895ea724862)
+
+#### Making API Requests
+
+**Via cURL:**
 
 ```sh
-curl http://localhost:8000/v1/chat/completions \
-  -H "Content-Type: application/json" \
+curl http://localhost:8000/v1/chat/completions \  
+  -H "Content-Type: application/json" \  
   -d '{
     "model": "deepseek-r1",
     "messages": [
@@ -53,15 +71,17 @@ curl http://localhost:8000/v1/chat/completions \
       }
     ]
   }'
-
 ```
 
-Using the Python client:
+**Using Python Client:**
+
 ```sh
 python client.py --prompt="Hello"
 ```
 
-### Response
+---
+
+### Sample Response
 
 ```json
 {
@@ -74,28 +94,36 @@ python client.py --prompt="Hello"
       "index": 0,
       "message": {
         "role": "assistant",
-        "content": "<think>\n\n</think>\n\nHello! How can I assist you today? 😊",
+        "content": "Hello! How can I assist you today? 😊"
       },
       "finish_reason": "stop"
     }
   ]
 }
 ```
+
+---
+
 ## 📚 Resources
 
-For more detailed information, refer to the following resources:
-- [Discover DeepSeek-R1](https://huggingface.co/deepseek-ai/DeepSeek-R1)
+Explore more with these helpful links:
+
+- [Discover DeepSeek-R1 on Hugging Face](https://huggingface.co/deepseek-ai/DeepSeek-R1)
 - [LitServe Documentation](https://lightning.ai/docs/litserve/home)
+
+---
 
 ## 🤝 Contributing
 
-We welcome contributions from the community! If you'd like to contribute to this project, please read our [Contributing Guidelines](../CONTRIBUTING.md) to get started.
+We welcome contributions! Check out our [Contributing Guidelines](../CONTRIBUTING.md) to learn how to get involved.
+
+---
 
 ## 📜 License
 
-This project is licensed under the [Apache License](../LICENSE).
+This project is licensed under the [Apache License 2.0](../LICENSE).
 
 ---
 
 Happy coding! 🎉
-Built with ❤️ using [LitServe](https://github.com/Lightning-AI/litserve)
+Built with ❤️ using [LitServe](https://github.com/Lightning-AI/litserve).
