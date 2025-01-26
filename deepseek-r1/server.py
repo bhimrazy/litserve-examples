@@ -13,7 +13,7 @@ class DeepSeekR1API(ls.LitAPI):
     def setup(self, device):
         self.device = device
 
-        model_id = "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
+        model_id = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
 
         self.tokenizer = AutoTokenizer.from_pretrained(model_id)
         self.model = AutoModelForCausalLM.from_pretrained(model_id).to(self.device)
@@ -63,7 +63,7 @@ class DeepSeekR1API(ls.LitAPI):
 
         # Yield generated text from the streamer
         for text in self.streamer:
-            print(f"\033[92m{text or ''}\033[0m", end="", flush=True)
+            # print(f"\033[92m{text or ''}\033[0m", end="", flush=True)
             yield text
 
         # Ensure the generation thread has finished

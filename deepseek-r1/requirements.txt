@@ -1,4 +1,3 @@
-accelerate
 litserve
 openai
 streamlit
