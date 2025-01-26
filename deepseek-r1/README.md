@@ -1,4 +1,9 @@
 <h1 align="center">Chat with DeepSeek-R1</h1>
+<div align="center">
+<a target="_blank" href="https://lightning.ai/bhimrajyadav/studios/chat-with-deepseek-r1-an-advanced-ai-reasoning-model">
+  <img src="https://pl-bolts-doc-images.s3.us-east-2.amazonaws.com/app-2/studio-badge.svg" alt="Open In Studio"/>
+</a>
+</div>
 
 ## 🎯 Overview
 
