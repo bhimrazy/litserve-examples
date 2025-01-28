@@ -1,4 +1,6 @@
 litserve
 openai
 streamlit
+torch
+torchvision
 transformers
