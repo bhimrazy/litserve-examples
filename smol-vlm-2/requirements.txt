@@ -3,6 +3,9 @@ git+https://github.com/bhimrazy/litserve.git@feat/add-multimedia-support-to-open
 # litserve 
 av
 decord
+torch
+torchvision
+flash-attn
 num2words
 openai
 streamlit

@@ -16,12 +16,13 @@ class SmolVLM2API(ls.LitAPI):
         self.device = device
         self.dtype = torch.bfloat16
 
-        model_id = "HuggingFaceTB/SmolVLM2-256M-Video-Instruct"
+        model_id = "HuggingFaceTB/SmolVLM2-500M-Video-Instruct"
 
         self.processor = AutoProcessor.from_pretrained(model_id)
         self.model = AutoModelForImageTextToText.from_pretrained(
             model_id,
             torch_dtype=self.dtype,
+            _attn_implementation="flash_attention_2",
         ).to(self.device)
 
         self.streamer = TextIteratorStreamer(
