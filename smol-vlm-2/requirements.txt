@@ -1,0 +1,8 @@
+git+https://github.com/huggingface/transformers.git
+git+https://github.com/bhimrazy/litserve.git@feat/add-multimedia-support-to-openai-spec
+# litserve 
+av
+decord
+num2words
+openai
+streamlit
