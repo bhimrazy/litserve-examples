@@ -47,7 +47,7 @@ def process_image(image_url: str, max_height: int = 720):
         width, height = image.size
         if height > max_height:
             new_width = int((max_height / height) * width)
-            image = image.resize((new_width, max_height), Image.ANTIALIAS)
+            image = image.resize((new_width, max_height))
         return image
     except Exception as e:
         print(f"Error processing image: {e}")
@@ -116,5 +116,8 @@ def parse_messages(req_messages: List[ChatMessage]):
     # Process images and audios in parallel
     images = process_in_parallel(process_image, images)
     audios = process_in_parallel(process_audio, audios)
+
+    images = images if images else None
+    audios = audios if audios else None
 
     return messages, images, audios
