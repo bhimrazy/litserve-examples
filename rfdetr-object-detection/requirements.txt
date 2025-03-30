@@ -1,0 +1,6 @@
+litserve
+onnxruntime
+pillow
+python-multipart
+rfdetr
+supervision
