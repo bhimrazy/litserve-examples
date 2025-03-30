@@ -14,8 +14,9 @@ Here is a list of applications included in this repository:
 | [**Chat with Qwen2-VL**](https://github.com/bhimrazy/chat-with-qwen2-vl)                                                                                    | A multimodal chatbot implementation using Qwen2-VL.                                |
 | [**Jina CLIP v2 Embeddings API**](./jina-clip-v2/)                                                                                                          | Multilingual Multimodal OpenAI like Embeddings API for Texts and Images            |
 | [**OpenAI Compatible Embeddings API**](./embeddings-api/)                                                                                                   | Build and Scale Embeddings API Like a Pro using OpenAI EmbeddingSpec with LitServe |
-| [**Modern BERT Embedding API**](./modernbert-embed/)                                                                                                   | A production-ready OpenAI compatible embeddings API based on ModernBERT |
-| [**DeepSeek R1**](./deepseek-r1/)                                                                                                   | ✨ **Interactive AI Chat** Powered by LitServe, Streamlit, and an OpenAI-Compatible API 💡 |
+| [**Modern BERT Embedding API**](./modernbert-embed/)                                                                                                        | A production-ready OpenAI compatible embeddings API based on ModernBERT            |
+| [**DeepSeek R1**](./deepseek-r1/)                                                                                                                           | ✨ **Interactive AI Chat** Powered by LitServe, Streamlit, and an OpenAI-Compatible API 💡 |
+| [**RF-DETR Object Detection API**](./rfdetr-object-detection/)                                                                                              | Real-time object detection API powered by RF-DETR and LitServe.                   |
 
 ## Running an Example
 Each example has its own folder in the root directory. To run a specific example, navigate to its folder and follow the instructions in its README.md file.
