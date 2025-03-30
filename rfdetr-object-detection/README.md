@@ -1,7 +1,7 @@
 <h1 align="center">RF-DETR Object Detection API</h1>
 <div align="center">
-<a target="_blank" href="#">
-  <img src="https://pl-bolts-doc-images.s3.us-east-2.amazonaws.com/app-2/studio-badge.svg" alt="Learn More About RF-DETR"/>
+  <a target="_blank" href="https://lightning.ai/bhimrajyadav/studios/deploy-rf-detr-a-sota-real-time-object-detection-model-using-litserve">
+  <img src="https://pl-bolts-doc-images.s3.us-east-2.amazonaws.com/app-2/studio-badge.svg" alt="Open In Studio"/>
 </a>
 </div>
 
