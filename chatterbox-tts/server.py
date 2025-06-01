@@ -29,16 +29,19 @@ class TTSRequest(BaseModel):
             return v
 
         is_url = re.match(r"^https?://", v)
-        is_base64 = re.match(r"^[A-Za-z0-9+/=]+\Z", v)
+        is_base64 = (
+            re.match(r"^[A-Za-z0-9+/=]+\Z", v) and len(v) > 100
+        )  # Basic base64 check
+        is_file_path = not is_url and not is_base64  # Assume local file path
 
-        if is_url or is_base64:
+        if is_url or is_base64 or is_file_path:
             return v
 
         raise ValueError(
-            "audio_prompt must be a base64 string or a valid http/https URL"
+            "audio_prompt must be a base64 string, valid http/https URL, or file path"
         )
 
-    def get_audio_tempfile(self) -> Optional[tempfile.NamedTemporaryFile]:
+    def get_audio_tempfile(self) -> Optional[str]:
         if self.audio_prompt is None:
             return None
 
@@ -46,18 +49,25 @@ class TTSRequest(BaseModel):
             # Download from URL
             resp = requests.get(self.audio_prompt)
             resp.raise_for_status()
-            tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".audio")
+            tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
             tmp_file.write(resp.content)
-            tmp_file.flush()
-            return tmp_file
+            tmp_file.close()
+            return tmp_file.name
 
-        # Assume base64 string
-        tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".audio")
-        padded = self.audio_prompt + "=" * (-len(self.audio_prompt) % 4)
-        decoded = base64.b64decode(padded)
-        tmp_file.write(decoded)
-        tmp_file.flush()
-        return tmp_file
+        if (
+            re.match(r"^[A-Za-z0-9+/=]+\Z", self.audio_prompt)
+            and len(self.audio_prompt) > 100
+        ):
+            # Base64 string
+            tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+            padded = self.audio_prompt + "=" * (-len(self.audio_prompt) % 4)
+            decoded = base64.b64decode(padded)
+            tmp_file.write(decoded)
+            tmp_file.close()
+            return tmp_file.name
+
+        # Assume local file path
+        return self.audio_prompt
 
 
 class ChatterboxTTSAPI(LitAPI):
@@ -69,28 +79,56 @@ class ChatterboxTTSAPI(LitAPI):
     def setup(self, device):
         """Initialize the Chatterbox TTS model."""
         self.model = ChatterboxTTS.from_pretrained(device=device)
+        self.temp_files = []  # Track temp files for cleanup
 
     def decode_request(self, request: TTSRequest) -> Tuple:
         """Decode request using TTSRequest model."""
-        text, exaggeration, cfg, temperature = request
-        audio_prompt = request.get_audio_tempfile()
-        return text, audio_prompt, exaggeration, cfg, temperature
+        audio_prompt_path = request.get_audio_tempfile()
+
+        # Track temp files for cleanup
+        if audio_prompt_path and audio_prompt_path != request.audio_prompt:
+            self.temp_files.append(audio_prompt_path)
+
+        return (
+            request.text,
+            audio_prompt_path,
+            request.exaggeration,
+            request.cfg,
+            request.temperature,
+        )
 
     def predict(self, inputs: Tuple) -> bytes:
         """Generate speech audio using Chatterbox TTS."""
-        text, audio_prompt, exaggeration, cfg, temperature = inputs
-        wav = self.model.generate(
-            text,
-            audio_prompt_path=audio_prompt,
-            exaggeration=exaggeration,
-            cfg_weight=cfg,
-            temperature=temperature,
-        )
-        # Convert to bytes
-        buffer = io.BytesIO()
-        ta.save(buffer, wav, self.model.sr, format="wav")
-        audio_bytes = buffer.getvalue()
-        return audio_bytes
+        text, audio_prompt_path, exaggeration, cfg, temperature = inputs
+
+        try:
+            wav = self.model.generate(
+                text,
+                audio_prompt_path=audio_prompt_path,
+                exaggeration=exaggeration,
+                cfg=cfg,
+                speed=temperature,  # Map temperature to speed parameter
+            )
+            # Convert to bytes
+            buffer = io.BytesIO()
+            ta.save(buffer, wav, self.model.sr, format="wav")
+            audio_bytes = buffer.getvalue()
+            return audio_bytes
+        finally:
+            # Clean up temp files
+            self._cleanup_temp_files()
+
+    def _cleanup_temp_files(self):
+        """Clean up temporary files."""
+        import os
+
+        for temp_file in self.temp_files:
+            try:
+                if os.path.exists(temp_file):
+                    os.unlink(temp_file)
+            except OSError:
+                pass
+        self.temp_files.clear()
 
     def encode_response(self, output: bytes) -> Response:
         """Package the generated audio data into a response."""
