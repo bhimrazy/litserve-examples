@@ -1,0 +1,5 @@
+einops
+litserve
+numpy<2
+torch
+transformers
