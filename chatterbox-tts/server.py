@@ -32,7 +32,8 @@ class TTSRequest(BaseModel):
         is_base64 = (
             re.match(r"^[A-Za-z0-9+/=]+\Z", v) and len(v) > 100
         )  # Basic base64 check
-        is_file_path = not is_url and not is_base64  # Assume local file path
+        # If the input is neither a URL nor a base64 string, assume it's a local file path.
+        is_file_path = not is_url and not is_base64
 
         if is_url or is_base64 or is_file_path:
             return v

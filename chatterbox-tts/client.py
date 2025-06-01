@@ -17,7 +17,7 @@ def play_audio(file_path):
         elif sys.platform == "linux":
             subprocess.run(["aplay", file_path], check=True)
         elif sys.platform == "win32":
-            subprocess.run(["start", file_path], shell=True, check=True)
+            subprocess.run(["cmd", "/c", "start", file_path], shell=True, check=True)
         else:
             print(f"⚠️ Auto-play not supported on {sys.platform}")
     except subprocess.CalledProcessError:
@@ -75,8 +75,6 @@ def main():
             print(f"❌ Audio prompt file not found: {args.audio_prompt}")
             sys.exit(1)
         data["audio_prompt"] = args.audio_prompt
-
-    if args.audio_prompt:
         print(f"🔊 Using voice from: {args.audio_prompt}")
 
     # Make API request
