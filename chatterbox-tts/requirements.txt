@@ -1,0 +1,5 @@
+chatterbox-tts
+litserve
+torch
+torchaudio
+requests
