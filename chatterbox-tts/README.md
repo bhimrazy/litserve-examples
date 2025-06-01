@@ -34,19 +34,13 @@ The easiest way to use the API is with the included command-line client:
 
 ```bash
 # Basic text-to-speech
-python client.py "Hello world!"
-
-# With custom output file
-python client.py "Hello world!" -o my_speech.wav
+python client.py --text "Deploy any AI model, Lightning fast. Focus on models, not serving infrastructure."
 
 # With voice cloning using reference audio
-python client.py "Clone my voice!" --audio-prompt reference.wav
-
-# Play the audio immediately after generation
-python client.py "Hello world!" --play
+python client.py --text "Clone my voice!" --audio-prompt reference.wav
 
 # Advanced options
-python client.py "Excited speech!" --exaggeration 0.8 --temperature 0.9 --play
+python client.py --text "Excited speech!" --audio-prompt reference.wav --cfg 0.3 --exaggeration 0.7 --play
 ```
 
 **Client Options:**
@@ -56,7 +50,6 @@ python client.py "Excited speech!" --exaggeration 0.8 --temperature 0.9 --play
 - `--play`: Play audio after generation
 - `--exaggeration`: Emotion level 0.0-1.0 (default: 0.5)
 - `--cfg`: CFG weight 0.0-1.0 (default: 0.5)
-- `--temperature`: Speech rate 0.0-1.0 (default: 0.8)
 
 ### API Usage (Python)
 
@@ -160,18 +153,6 @@ This will test:
 - **Batch Processing**: Supports single requests (TTS typically done one at a time)
 - **GPU Acceleration**: Automatic device detection (CUDA/MPS/CPU)
 
-## Watermarking
-
-Every audio file generated includes Resemble AI's Perth (Perceptual Threshold) Watermarker - imperceptible neural watermarks for responsible AI usage.
-
-## Error Handling
-
-The API includes comprehensive error handling for:
-- Missing or empty text
-- Invalid audio file formats
-- Model loading errors
-- Generation failures
-
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -184,4 +165,3 @@ This project is licensed under the Apache License - see the [LICENSE](../LICENSE
 
 - [Chatterbox TTS](https://huggingface.co/ResembleAI/chatterbox) by Resemble AI
 - [LitServe](https://github.com/Lightning-AI/litserve) by Lightning AI
-- [Parler TTS example](https://github.com/bhimrazy/parler-tts-powered-by-litserve) for inspiration
