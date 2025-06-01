@@ -76,7 +76,6 @@ def main():
             sys.exit(1)
         data["audio_prompt"] = args.audio_prompt
 
-    print(f"🎤 Synthesizing: '{args.text}'")
     if args.audio_prompt:
         print(f"🔊 Using voice from: {args.audio_prompt}")
 
