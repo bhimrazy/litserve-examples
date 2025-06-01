@@ -106,8 +106,8 @@ class ChatterboxTTSAPI(LitAPI):
                 text,
                 audio_prompt_path=audio_prompt_path,
                 exaggeration=exaggeration,
-                cfg=cfg,
-                speed=temperature,  # Map temperature to speed parameter
+                cfg_weight=cfg,
+                temperature=temperature
             )
             # Convert to bytes
             buffer = io.BytesIO()
