@@ -1,4 +1,5 @@
 import argparse
+import base64
 import subprocess
 import sys
 from pathlib import Path
@@ -74,7 +75,10 @@ def main():
         if not Path(args.audio_prompt).exists():
             print(f"❌ Audio prompt file not found: {args.audio_prompt}")
             sys.exit(1)
-        data["audio_prompt"] = args.audio_prompt
+        with open(args.audio_prompt, "rb") as f:
+            audio_data = f.read()
+        audio_base64 = base64.b64encode(audio_data).decode("utf-8")
+        data["audio_prompt"] = audio_base64
         print(f"🔊 Using voice from: {args.audio_prompt}")
 
     # Make API request

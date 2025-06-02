@@ -32,15 +32,11 @@ class TTSRequest(BaseModel):
         is_base64 = (
             re.match(r"^[A-Za-z0-9+/=]+\Z", v) and len(v) > 100
         )  # Basic base64 check
-        # If the input is neither a URL nor a base64 string, assume it's a local file path.
-        is_file_path = not is_url and not is_base64
 
-        if is_url or is_base64 or is_file_path:
+        if is_url or is_base64:
             return v
 
-        raise ValueError(
-            "audio_prompt must be a base64 string, valid http/https URL, or file path"
-        )
+        raise ValueError("audio_prompt must be a base64 string or valid http/https URL")
 
     def get_audio_tempfile(self) -> Optional[str]:
         if self.audio_prompt is None:
@@ -108,7 +104,7 @@ class ChatterboxTTSAPI(LitAPI):
                 audio_prompt_path=audio_prompt_path,
                 exaggeration=exaggeration,
                 cfg_weight=cfg,
-                temperature=temperature
+                temperature=temperature,
             )
             # Convert to bytes
             buffer = io.BytesIO()
