@@ -1,4 +1,11 @@
-# Chatterbox TTS API powered by LitServe
+<h1 align="center">Chatterbox TTS API powered by LitServe</h1>
+<div align="center">
+<a target="_blank" href="https://lightning.ai/bhimrajyadav/studios/build-a-production-ready-tts-api-with-chatterbox-powered-by-litserve">
+  <img src="https://pl-bolts-doc-images.s3.us-east-2.amazonaws.com/app-2/studio-badge.svg" alt="Open In Studio"/>
+</a>
+</div>
+
+![image](https://github.com/user-attachments/assets/dfa9d07b-b293-441b-be31-375d997116ef)
 
 A high-performance Text-to-Speech API using [Chatterbox TTS](https://huggingface.co/ResembleAI/chatterbox) model powered by [LitServe](https://github.com/Lightning-AI/litserve).
 
