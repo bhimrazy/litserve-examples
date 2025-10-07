@@ -1,0 +1,6 @@
+fastembed
+litserve
+openai
+
+# for gpu support
+# fastembed-gpu

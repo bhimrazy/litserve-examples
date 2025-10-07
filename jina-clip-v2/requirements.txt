@@ -1,0 +1,6 @@
+einops 
+litserve
+openai
+pillow
+sentence-transformers 
+timm 

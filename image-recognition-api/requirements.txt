@@ -1,0 +1,5 @@
+litserve
+python-multipart
+requests
+torch
+torchvision
