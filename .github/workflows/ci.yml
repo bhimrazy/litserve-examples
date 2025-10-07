@@ -23,8 +23,8 @@ jobs:
       - name: List example directories
         id: list
         run: |
-          examples=$(find . -maxdepth 1 -type d ! -name '.' ! -name '.git' ! -name '.github' | sed 's|^\./||' | sort)
-          matrix=$(echo "$examples" | jq -R . | jq -s .)
+          examples=$(find . -maxdepth 1 -type d ! -name '.' ! -name '.git' ! -name '.github' | sed 's|^\./||' | sort | sed 's/.*/"&"/' | tr '\n' ',' | sed 's/,$//')
+          matrix="[$examples]"
           echo "matrix=$matrix" >> $GITHUB_OUTPUT
           echo "Found examples: $examples"
 
