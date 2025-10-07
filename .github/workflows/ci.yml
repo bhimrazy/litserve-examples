@@ -48,18 +48,21 @@ jobs:
           uv run python server.py &
           SERVER_PID=$!
           echo "SERVER_PID=$SERVER_PID" >> $GITHUB_ENV
+          sleep 2
+          echo "Checking server root endpoint:"
+          curl -v http://localhost:8000 || true
 
       - name: Wait for server to be ready
         run: |
-          timeout=300
+          timeout=60
           elapsed=0
           while [ $elapsed -lt $timeout ]; do
             if curl -s http://localhost:8000/health > /dev/null 2>&1; then
               echo "Server is ready"
               break
             fi
-            sleep 10
-            elapsed=$((elapsed + 10))
+            sleep 5
+            elapsed=$((elapsed + 5))
           done
           if [ $elapsed -ge $timeout ]; then
             echo "Server did not start within $timeout seconds"
