@@ -1,5 +1,8 @@
 # LitServe Examples
 
+[![CI](https://github.com/bhimrazy/litserve-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/bhimrazy/litserve-examples/actions/workflows/ci.yml)
+[![license](https://img.shields.io/badge/License-Apache-blue.svg)](https://github.com/bhimrazy/litserve-examples/blob/main/LICENSE)
+
 Welcome to the **LitServe Examples** repository! This repository contains a collection of example applications built using [LitServe](https://github.com/Lightning-AI/litserve), a high-performance AI model serving engine.
 
 ## 📂 Applications
