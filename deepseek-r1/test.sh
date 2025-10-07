@@ -1,0 +1,1 @@
+uv run python client.py -p "Hi, How are you?"

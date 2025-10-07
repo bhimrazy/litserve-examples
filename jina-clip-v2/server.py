@@ -75,7 +75,7 @@ class EmbeddingAPI(ls.LitAPI):
 
 
 if __name__ == "__main__":
-    api = EmbeddingAPI()
-    server = ls.LitServer(api, accelerator="auto", api_path="/v1/embeddings")
+    api = EmbeddingAPI(api_path="/v1/embeddings")
+    server = ls.LitServer(api, accelerator="auto")
 
     server.run(port=8000)

@@ -19,6 +19,6 @@ class ModernBertEmbeddingAPI(LitAPI):
 
 
 if __name__ == "__main__":
-    api = ModernBertEmbeddingAPI()
-    server = LitServer(api, spec=OpenAIEmbeddingSpec())
+    api = ModernBertEmbeddingAPI(spec=OpenAIEmbeddingSpec())
+    server = LitServer(api)
     server.run(port=8000)

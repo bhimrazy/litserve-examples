@@ -140,6 +140,6 @@ class ChatterboxTTSAPI(LitAPI):
 
 if __name__ == "__main__":
     # Set up API service and server
-    api = ChatterboxTTSAPI()
-    server = LitServer(api, accelerator="auto", api_path="/speech", timeout=100)
+    api = ChatterboxTTSAPI(api_path="/speech")
+    server = LitServer(api, accelerator="auto", timeout=100)
     server.run(port=8000)
