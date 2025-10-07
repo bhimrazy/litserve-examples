@@ -25,8 +25,10 @@ jobs:
         run: |
           examples=$(find . -maxdepth 1 -type d ! -name '.' ! -name '.git' ! -name '.github' | sed 's|^\./||' | sort | sed 's/.*/"&"/' | tr '\n' ',' | sed 's/,$//')
           matrix="[$examples]"
-          echo "matrix=$matrix" >> $GITHUB_OUTPUT
-          echo "Found examples: $examples"
+          echo "matrix<<EOF" >> $GITHUB_OUTPUT
+          echo "$matrix" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "Found examples: $(find . -maxdepth 1 -type d ! -name '.' ! -name '.git' ! -name '.github' | sed 's|^\./||' | sort)"
 
   litserve-examples:
     runs-on: ubuntu-latest
