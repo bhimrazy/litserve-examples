@@ -5,63 +5,89 @@ on:
     branches: [main, "release/*"]
   pull_request:
     branches: [main, "release/*"]
+  schedule:
+    - cron: "0 0 * * *"
 
 jobs:
-  lint-and-test:
+  ruff:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/ruff-action@v3
+
+  list:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.list.outputs.matrix }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+      - name: List example directories
+        id: list
+        run: |
+          examples=$(find . -maxdepth 1 -type d ! -name '.' ! -name '.git' ! -name '.github' | sed 's|^\./||' | sort | sed 's/.*/"&"/' | paste -sd, -)
+          matrix="[$examples]"
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+          echo "Found examples: $matrix"
+
+  test:
+    runs-on: ubuntu-latest
+    needs: list
+    strategy:
+      matrix:
+        python-version: ["3.12"]
+        example: ${{ fromJson(needs.list.outputs.matrix) }}
+
+    timeout-minutes: 5
+    env:
+      UV_TORCH_BACKEND: "cpu"
 
     steps:
-      # Step 1: Checkout code
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
-      # Step 2: Set up Python
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Install uv and set Python version ${{ matrix.python-version }}
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: "3.10"
+          activate-environment: true
+          python-version: ${{ matrix.python-version }}
+          enable-cache: true
 
-      # Step 3: Cache pip dependencies
-      - name: Cache pip
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      # Step 4: Install dependencies
       - name: Install dependencies
         run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
-          find . -name 'requirements.txt' -exec sh -c 'pip install -r {}' \;
+          uv pip install -r ${{ matrix.example }}/requirements.txt
+          uv pip list
 
-      # Step 5: Install Ruff for linting
-      - name: Install Ruff
+      - name: Start server
         run: |
-          source venv/bin/activate
-          pip install ruff
+          cd ${{ matrix.example }}
+          uv run python server.py &
+          SERVER_PID=$!
+          echo "SERVER_PID=$SERVER_PID" >> $GITHUB_ENV
 
-      # Step 6: Run Ruff for linting
-      - name: Run Ruff Lint
+      - name: Wait for server to be ready
         run: |
-          source venv/bin/activate
-          ruff check --show-fixes
-
-      # Step 7: Discover and test all folders
-      - name: Discover and test all folders
-        run: |
-          source venv/bin/activate
-          for folder in $(find . -type d -mindepth 1 -maxdepth 1 ! -name '.*' ! -name 'venv'); do
-            echo "Processing $folder"
-
-            # Run tests if test files are present
-            if [ -n "$(find "$folder" -name "test*.py")" ]; then
-              echo "Running tests in $folder"
-              pytest "$folder"
-            else
-              echo "No tests found in $folder"
+          timeout=120
+          elapsed=0
+          while [ $elapsed -lt $timeout ]; do
+            if curl -s http://localhost:8000/health > /dev/null 2>&1; then
+              echo "Server is ready"
+              break
             fi
+            sleep 5
+            elapsed=$((elapsed + 5))
           done
+          if [ $elapsed -ge $timeout ]; then
+            echo "Server did not start within $timeout seconds"
+            kill $SERVER_PID || true
+            exit 1
+          fi
+
+      - name: Run client test
+        run: |
+          cd ${{ matrix.example }}
+          if [ -f test.sh ]; then sh test.sh; else uv run python client.py; fi
+
+      - name: Stop server
+        run: |
+          kill $SERVER_PID || true
