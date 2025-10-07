@@ -1,0 +1,1 @@
+uv run python client.py -a nova.wav

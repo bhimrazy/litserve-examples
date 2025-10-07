@@ -7,61 +7,54 @@ on:
     branches: [main, "release/*"]
 
 jobs:
-  lint-and-test:
+  ruff:
     runs-on: ubuntu-latest
-
     steps:
-      # Step 1: Checkout code
+      - uses: actions/checkout@v5
+      - uses: astral-sh/ruff-action@v3
+
+  test-examples:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+        example:
+          [
+            chatterbox-tts,
+            deepseek-r1,
+            embeddings-api,
+            image-recognition-api,
+            modernbert-embed,
+            rfdetr-object-detection,
+            whisper-stt-api,
+          ]
+    steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
-      # Step 2: Set up Python
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Install uv and set Python version ${{ matrix.python-version }}
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: "3.10"
+          activate-environment: true
+          python-version: ${{ matrix.python-version }}
+          enable-cache: true
 
-      # Step 3: Cache pip dependencies
-      - name: Cache pip
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      # Step 4: Install dependencies
       - name: Install dependencies
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
-          find . -name 'requirements.txt' -exec sh -c 'pip install -r {}' \;
+        run: uv pip install -r ${{ matrix.example }}/requirements.txt
 
-      # Step 5: Install Ruff for linting
-      - name: Install Ruff
+      - name: Start server
         run: |
-          source venv/bin/activate
-          pip install ruff
+          cd ${{ matrix.example }}
+          uv run python server.py &
+          SERVER_PID=$!
+          echo "SERVER_PID=$SERVER_PID" >> $GITHUB_ENV
+          sleep 10
 
-      # Step 6: Run Ruff for linting
-      - name: Run Ruff Lint
+      - name: Run client test
         run: |
-          source venv/bin/activate
-          ruff check --show-fixes
+          cd ${{ matrix.example }}
+          if [ -f test.sh ]; then sh test.sh; else uv run python client.py; fi
 
-      # Step 7: Discover and test all folders
-      - name: Discover and test all folders
+      - name: Stop server
         run: |
-          source venv/bin/activate
-          for folder in $(find . -type d -mindepth 1 -maxdepth 1 ! -name '.*' ! -name 'venv'); do
-            echo "Processing $folder"
-
-            # Run tests if test files are present
-            if [ -n "$(find "$folder" -name "test*.py")" ]; then
-              echo "Running tests in $folder"
-              pytest "$folder"
-            else
-              echo "No tests found in $folder"
-            fi
-          done
+          kill $SERVER_PID || true
