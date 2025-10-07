@@ -7,6 +7,21 @@ on:
     branches: [main, "release/*"]
 
 jobs:
+  list-examples:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.list.outputs.matrix }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+      - name: List example directories
+        id: list
+        run: |
+          examples=$(find . -maxdepth 1 -type d ! -name '.' ! -name '.git' ! -name '.github' | sed 's|^\./||' | sort)
+          matrix=$(echo "$examples" | jq -R . | jq -s .)
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+          echo "Found examples: $examples"
+
   ruff:
     runs-on: ubuntu-latest
     steps:
@@ -18,16 +33,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.11", "3.12"]
-        example:
-          [
-            chatterbox-tts,
-            deepseek-r1,
-            embeddings-api,
-            image-recognition-api,
-            modernbert-embed,
-            rfdetr-object-detection,
-            whisper-stt-api,
-          ]
+        example: ${{ fromJson(needs.list-examples.outputs.matrix) }}
 
     timeout-minutes: 5
     env:
