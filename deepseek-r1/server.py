@@ -71,5 +71,5 @@ class DeepSeekR1API(ls.LitAPI):
 
 
 if __name__ == "__main__":
-    server = ls.LitServer(DeepSeekR1API(), spec=ls.OpenAISpec())
+    server = ls.LitServer(DeepSeekR1API(spec=ls.OpenAISpec()))
     server.run(port=8000)
