@@ -48,9 +48,6 @@ jobs:
           uv run python server.py &
           SERVER_PID=$!
           echo "SERVER_PID=$SERVER_PID" >> $GITHUB_ENV
-          sleep 2
-          echo "Checking server root endpoint:"
-          curl -v http://localhost:8000 || true
 
       - name: Wait for server to be ready
         run: |
