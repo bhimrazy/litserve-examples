@@ -28,6 +28,11 @@ jobs:
             rfdetr-object-detection,
             whisper-stt-api,
           ]
+    
+    timeout-minutes: 5
+    env:
+      UV_TORCH_BACKEND: "cpu"
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
