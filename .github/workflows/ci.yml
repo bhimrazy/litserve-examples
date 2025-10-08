@@ -91,3 +91,6 @@ jobs:
       - name: Stop server
         run: |
           kill $SERVER_PID || true
+
+      - name: Minimize uv cache
+        run: uv cache prune --ci
