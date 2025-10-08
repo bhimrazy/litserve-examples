@@ -18,7 +18,7 @@ Ensure you have the following installed:
 1. **Clone the repository:**
     ```sh
     git clone https://github.com/bhimrazy/litserve-examples.git
-    cd whisper-stt-api
+    cd litserve-examples/whisper-stt-api
     ```
 
 2. **Install the required dependencies:**
