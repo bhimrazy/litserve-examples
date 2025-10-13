@@ -18,5 +18,6 @@ class EmbeddingsUser(HttpUser):
     tasks = [EmbeddingsTest]
     wait_time = between(1, 3)  # Adjust wait time as needed
 
+
 # Run the test with the following command:
 # locust -f locustfile.py

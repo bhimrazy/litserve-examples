@@ -4,12 +4,15 @@ import requests
 
 def main():
     # Set up argument parsing
-    parser = argparse.ArgumentParser(description="Client to test the WhisperAPI server.")
+    parser = argparse.ArgumentParser(
+        description="Client to test the WhisperAPI server."
+    )
     parser.add_argument(
-        "-a", "--audio_file",  # Added short and long names for the argument
+        "-a",
+        "--audio_file",  # Added short and long names for the argument
         type=str,
         required=True,
-        help="Path to the audio file to be transcribed"
+        help="Path to the audio file to be transcribed",
     )
     args = parser.parse_args()
 

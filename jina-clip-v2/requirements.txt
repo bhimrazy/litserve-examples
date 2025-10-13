@@ -1,6 +1,6 @@
-einops 
+einops
 litserve
 openai
 pillow
-sentence-transformers 
-timm 
+sentence-transformers
+timm

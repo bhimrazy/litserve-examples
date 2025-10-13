@@ -34,7 +34,8 @@ class EmbeddingAPI(ls.LitAPI):
     def predict(
         self, inputs: Tuple[List[str], List[str], List[str]], context: dict
     ) -> List[List[float]]:
-        """Generate embeddings for text and image inputs, preserving the input order."""
+        """Generate embeddings for text and image inputs, preserving the input
+        order."""
 
         sentences, image_urls, input_types = inputs
         text_embeddings, image_embeddings = [], []

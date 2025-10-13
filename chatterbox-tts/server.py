@@ -68,8 +68,8 @@ class TTSRequest(BaseModel):
 
 
 class ChatterboxTTSAPI(LitAPI):
-    """
-    LitServe API for Chatterbox TTS model.
+    """LitServe API for Chatterbox TTS model.
+
     Supports both text-to-speech and voice cloning with audio prompts.
     """
 
