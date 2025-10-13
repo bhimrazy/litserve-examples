@@ -23,6 +23,10 @@ repos:
       - id: check-case-conflict
       - id: check-added-large-files
         args: ["--maxkb=350", "--enforce-all"]
+        exclude: |
+          (?x)^(
+              chatterbox-tts/output.wav
+          )$
       - id: detect-private-key
 
   - repo: https://github.com/codespell-project/codespell
