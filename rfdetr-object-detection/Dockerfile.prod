@@ -25,7 +25,7 @@ RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 # Install PyTorch CPU version first (smaller footprint)
-RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu 
+RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu
 # Install other dependencies
 RUN pip install --no-cache-dir -r requirements.txt litserve==0.2.7
 

@@ -1,7 +1,7 @@
-"""
-Benchmarking the embeddings API
+"""Benchmarking the embeddings API.
 
-Adapted from https://github.com/Lightning-AI/LitServe/blob/main/tests/parity_fastapi/benchmark.py
+Adapted from
+https://github.com/Lightning-AI/LitServe/blob/main/tests/parity_fastapi/benchmark.py
 """
 
 import concurrent.futures
@@ -18,18 +18,19 @@ logging.basicConfig(level=logging.INFO)
 SERVER_URL = os.getenv("SERVER_URL", "http://localhost:{}/v1/embeddings")
 
 INPUT_TEXT = """
-LitServe, developed by Lightning AI, is an advanced serving engine designed to deploy AI models with exceptional speed and flexibility. 
-Built on FastAPI, it offers optimized features specifically for machine learning and deep learning applications, such as batching, streaming, and GPU autoscaling. 
+LitServe, developed by Lightning AI, is an advanced serving engine designed to deploy AI models with exceptional speed and flexibility.
+Built on FastAPI, it offers optimized features specifically for machine learning and deep learning applications, such as batching, streaming, and GPU autoscaling.
 These enhancements enable faster inference and reduced overhead compared to standard FastAPI setups, often doubling the performance for AI workloads.
-Its key capabilities include seamless support for large language models (LLMs), computer vision models, NLP, speech processing, and classical machine learning algorithms. 
-LitServe is highly scalable, supporting multi-model systems and enabling efficient resource utilization through features like auto-scaling workers and zero-server scaling. 
+Its key capabilities include seamless support for large language models (LLMs), computer vision models, NLP, speech processing, and classical machine learning algorithms.
+LitServe is highly scalable, supporting multi-model systems and enabling efficient resource utilization through features like auto-scaling workers and zero-server scaling.
 It also integrates easily with frameworks like PyTorch, TensorFlow, and JAX, making it versatile for diverse AI projects.
-Users can self-host LitServe for full control or opt for a managed deployment via Lightning AI's platform, which offers enterprise-grade features like authentication, VPC support, and one-click scalability. 
+Users can self-host LitServe for full control or opt for a managed deployment via Lightning AI's platform, which offers enterprise-grade features like authentication, VPC support, and one-click scalability.
 """
 
 
 def send_embedding_request(port: int = 8000, num_inputs: int = 1) -> Tuple[float, int]:
-    """Send a request to the embeddings API and return the response time and status code."""
+    """Send a request to the embeddings API and return the response time and
+    status code."""
     payload = {
         "input": [str(INPUT_TEXT)] * num_inputs,
         "model": "jinaai/jina-embeddings-v2-small-en",

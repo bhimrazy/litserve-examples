@@ -6,8 +6,7 @@ from model import ImageInput, TextInput
 def parse_inputs(
     inputs: Union[str, List[Union[str, TextInput, ImageInput]]],
 ) -> Tuple[List[str], List[str], List[str]]:
-    """
-    Parse the input data into separate lists of text and image URLs.
+    """Parse the input data into separate lists of text and image URLs.
 
     Args:
         inputs: Input data, either a string or a list of mixed types (str, TextInput, ImageInput, dict).

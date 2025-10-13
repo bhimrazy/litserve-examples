@@ -1,5 +1,5 @@
-"""
-Object detection API server using RF-DETR model.
+"""Object detection API server using RF-DETR model.
+
 Provides HTTP endpoints for detecting objects in uploaded images.
 """
 
