@@ -1,6 +1,6 @@
-fastembed
-litserve
-openai
+fastembed==0.7.3
+litserve==0.2.15
+openai==2.3.0
 
 # for gpu support
-# fastembed-gpu
+# fastembed-gpu==0.7.3

@@ -1,6 +1,6 @@
-litserve
-openai
-streamlit
-torch
-torchvision
-transformers
+litserve==0.2.15
+openai==2.3.0
+streamlit==1.50.0
+torch==2.8.0
+torchvision==0.23.0
+transformers==4.57.1
