@@ -1,6 +1,6 @@
 einops
-litserve
-openai
-pillow
-sentence-transformers
-timm
+litserve==0.2.15
+openai==2.3.0
+pillow==11.3.0
+sentence-transformers==5.1.1
+timm==1.0.20
