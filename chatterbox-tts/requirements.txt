@@ -1,3 +1,4 @@
 chatterbox-tts==0.1.6
 litserve==0.2.15
 requests==2.32.5
+numpy>1.25.2
