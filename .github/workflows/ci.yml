@@ -71,7 +71,7 @@ jobs:
       - name: Start server
         run: |
           cd ${{ matrix.example }}
-          uv run python server.py &
+          uv run python server.py > server.log 2>&1 &
           SERVER_PID=$!
           echo "SERVER_PID=$SERVER_PID" >> $GITHUB_ENV
 
@@ -101,6 +101,10 @@ jobs:
       - name: Stop server
         run: |
           kill $SERVER_PID || true
+
+      - name: Show server logs
+        if: always()
+        run: cat ${{ matrix.example }}/server.log || true
 
       - name: Minimize uv cache
         run: uv cache prune --ci
