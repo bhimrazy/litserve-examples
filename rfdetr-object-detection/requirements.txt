@@ -1,5 +1,5 @@
 litserve==0.2.17
-onnxruntime==1.23.2
+onnxruntime==1.24.4
 opencv-python==4.12.0.88
 pillow==12.0.0
 python-multipart==0.0.20
