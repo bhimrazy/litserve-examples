@@ -7,7 +7,6 @@ https://github.com/Lightning-AI/LitServe/blob/main/tests/parity_fastapi/benchmar
 import asyncio
 import logging
 import time
-from typing import Dict, Tuple
 
 import httpx
 from tqdm import tqdm
@@ -29,7 +28,7 @@ Users can self-host LitServe for full control or opt for a managed deployment vi
 
 async def send_embedding_request(
     client: httpx.AsyncClient, port: int = 8000, num_inputs: int = 1
-) -> Tuple[float, int]:
+) -> tuple[float, int]:
     """Send a request to the embeddings API and return the response time and
     status code."""
     payload = {
@@ -54,7 +53,7 @@ async def benchmark(
     concurrency: int = 100,
     port: int = 8000,
     run_id: int = 0,
-) -> Dict[str, float]:
+) -> dict[str, float]:
     """Run a benchmark on the given send_request function."""
     start_time = time.time()  # Start the benchmark timer
 

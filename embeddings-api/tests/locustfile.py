@@ -1,5 +1,5 @@
-from locust import HttpUser, TaskSet, task, between
 from benchmark import INPUT_TEXT
+from locust import HttpUser, TaskSet, between, task
 
 
 class EmbeddingsTest(TaskSet):

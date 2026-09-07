@@ -1,5 +1,4 @@
 # server.py
-from typing import List, Tuple
 
 import litserve as ls
 from model import Embedding, EmbeddingRequest, EmbeddingResponse, Usage
@@ -19,7 +18,7 @@ class EmbeddingAPI(ls.LitAPI):
 
     def decode_request(
         self, request: EmbeddingRequest, context: dict
-    ) -> Tuple[List[str], List[str], List[str]]:
+    ) -> tuple[list[str], list[str], list[str]]:
         """Decode the incoming request and prepare it for prediction."""
         # Update the context with request metadata
         context.update(
@@ -32,11 +31,10 @@ class EmbeddingAPI(ls.LitAPI):
         return parse_inputs(request.input)
 
     def predict(
-        self, inputs: Tuple[List[str], List[str], List[str]], context: dict
-    ) -> List[List[float]]:
+        self, inputs: tuple[list[str], list[str], list[str]], context: dict
+    ) -> list[list[float]]:
         """Generate embeddings for text and image inputs, preserving the input
         order."""
-
         sentences, image_urls, input_types = inputs
         text_embeddings, image_embeddings = [], []
 
@@ -61,7 +59,7 @@ class EmbeddingAPI(ls.LitAPI):
         return combined_embeddings
 
     def encode_response(
-        self, output: List[List[float]], context: dict
+        self, output: list[list[float]], context: dict
     ) -> EmbeddingResponse:
         """Encode the embedding output into the response model."""
         embeddings = [
