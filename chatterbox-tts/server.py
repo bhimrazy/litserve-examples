@@ -2,7 +2,6 @@ import base64
 import io
 import re
 import tempfile
-from typing import Optional, Tuple
 
 import requests
 import torchaudio as ta
@@ -16,7 +15,7 @@ class TTSRequest(BaseModel):
     text: str = Field(
         ..., min_length=1, max_length=500, description="Input text to synthesize"
     )
-    audio_prompt: Optional[str] = Field(
+    audio_prompt: str | None = Field(
         None, description="Base64 audio, URL, or file path"
     )
     exaggeration: float = Field(0.5, ge=0.0, le=1.0)
@@ -38,7 +37,7 @@ class TTSRequest(BaseModel):
 
         raise ValueError("audio_prompt must be a base64 string or valid http/https URL")
 
-    def get_audio_tempfile(self) -> Optional[str]:
+    def get_audio_tempfile(self) -> str | None:
         if self.audio_prompt is None:
             return None
 
@@ -78,7 +77,7 @@ class ChatterboxTTSAPI(LitAPI):
         self.model = ChatterboxTTS.from_pretrained(device=device)
         self.temp_files = []  # Track temp files for cleanup
 
-    def decode_request(self, request: TTSRequest) -> Tuple:
+    def decode_request(self, request: TTSRequest) -> tuple:
         """Decode request using TTSRequest model."""
         audio_prompt_path = request.get_audio_tempfile()
 
@@ -94,7 +93,7 @@ class ChatterboxTTSAPI(LitAPI):
             request.temperature,
         )
 
-    def predict(self, inputs: Tuple) -> bytes:
+    def predict(self, inputs: tuple) -> bytes:
         """Generate speech audio using Chatterbox TTS."""
         text, audio_prompt_path, exaggeration, cfg, temperature = inputs
 

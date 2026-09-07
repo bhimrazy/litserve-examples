@@ -1,11 +1,9 @@
-from typing import List, Tuple, Union
-
 from model import ImageInput, TextInput
 
 
 def parse_inputs(
-    inputs: Union[str, List[Union[str, TextInput, ImageInput]]],
-) -> Tuple[List[str], List[str], List[str]]:
+    inputs: str | list[str | TextInput | ImageInput],
+) -> tuple[list[str], list[str], list[str]]:
     """Parse the input data into separate lists of text and image URLs.
 
     Args:
@@ -17,9 +15,9 @@ def parse_inputs(
         - List of image URLs.
         - List of input types (sequence of "text" or "image").
     """
-    texts: List[str] = []
-    images: List[str] = []
-    input_types: List[str] = []
+    texts: list[str] = []
+    images: list[str] = []
+    input_types: list[str] = []
 
     normalized_inputs = inputs if isinstance(inputs, list) else [inputs]
 

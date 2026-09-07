@@ -8,7 +8,6 @@ import concurrent.futures
 import logging
 import os
 import time
-from typing import Tuple
 
 import requests
 from tqdm import tqdm
@@ -28,7 +27,7 @@ Users can self-host LitServe for full control or opt for a managed deployment vi
 """
 
 
-def send_embedding_request(port: int = 8000, num_inputs: int = 1) -> Tuple[float, int]:
+def send_embedding_request(port: int = 8000, num_inputs: int = 1) -> tuple[float, int]:
     """Send a request to the embeddings API and return the response time and
     status code."""
     payload = {
@@ -55,7 +54,6 @@ def benchmark(
     run_id: int = 0,
 ) -> dict:
     """Run a benchmark on the given send_request function."""
-
     start_time = time.time()  # Start the benchmark timer
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as executor:

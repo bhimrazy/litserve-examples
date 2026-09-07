@@ -1,7 +1,8 @@
 import argparse
-import os
-import requests
 import logging
+import os
+
+import requests
 
 
 def parse_arguments():
