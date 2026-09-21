@@ -11,13 +11,14 @@ MIN_TOKENS = int(os.environ.get("KEV_PREFIX_MIN_TOKENS", "384"))
 class PrefixCache:
     """LRU cache of Kev state prefixes, keyed by the state's tokens.
 
-    Kev reads the state once and then answers each question from its own branch.
-    Everything up to the first question therefore has activations that do not
-    depend on the questions, so a repeated state can reuse them and pay only for
-    its branches. Reuse is exact, not approximate.
+    Kev reads the state once and then answers each question from its own
+    branch. Everything up to the first question therefore has
+    activations that do not depend on the questions, so a repeated state
+    can reuse them and pay only for its branches. Reuse is exact, not
+    approximate.
 
-    Upstream keeps this in a module-global dict; holding it on an instance gives
-    each LitServe worker its own.
+    Upstream keeps this in a module-global dict; holding it on an
+    instance gives each LitServe worker its own.
     """
 
     def __init__(self, size: int = CACHE_SIZE, min_tokens: int = MIN_TOKENS):

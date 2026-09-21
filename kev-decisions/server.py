@@ -18,11 +18,12 @@ MAX_STATE = MAX_BRANCH = 8192
 class KevSystemOneAPI(ls.LitAPI):
     """Typed, calibrated decisions from a Kev checkpoint.
 
-    Batching stays off. LitServe batches by stacking independent requests into one
-    forward pass, but Kev already packs every question of a request into a single
-    block-causal sequence and reuses a cached state prefix across requests. Stacking
-    two users' states would break that prefix key and force ragged padding for no
-    gain, so each request gets its own pass.
+    Batching stays off. LitServe batches by stacking independent
+    requests into one forward pass, but Kev already packs every question
+    of a request into a single block-causal sequence and reuses a cached
+    state prefix across requests. Stacking two users' states would break
+    that prefix key and force ragged padding for no gain, so each
+    request gets its own pass.
     """
 
     def __init__(self, run: str = DEFAULT_RUN, **kwargs):
@@ -44,8 +45,9 @@ class KevSystemOneAPI(ls.LitAPI):
     def decode_request(self, request: SystemOneRequest, context: dict):
         """Turn the request into a Kev record, keeping the question metadata.
 
-        Annotating Kev's own pydantic model lets FastAPI validate the body exactly
-        as upstream does, so a malformed request gets the same 422 here as there.
+        Annotating Kev's own pydantic model lets FastAPI validate the
+        body exactly as upstream does, so a malformed request gets the
+        same 422 here as there.
         """
         record, meta = to_record(request)
         context.update({"model": request.model, "meta": meta})
@@ -54,7 +56,9 @@ class KevSystemOneAPI(ls.LitAPI):
     def predict(self, record, context: dict):
         """Score every question in one prefill pass, with no token decoding."""
         try:
-            enc = self.model.encode(self.tok, record, max_state=MAX_STATE, max_branch=MAX_BRANCH)
+            enc = self.model.encode(
+                self.tok, record, max_state=MAX_STATE, max_branch=MAX_BRANCH
+            )
         except ValueError as e:  # state or a branch exceeds the window
             raise HTTPException(422, str(e)) from e
 
@@ -67,7 +71,10 @@ class KevSystemOneAPI(ls.LitAPI):
         return [p.tolist() for p in probs]
 
     def encode_response(self, probs, context: dict) -> dict:
-        """Build the documented response: model, answers, usage. Nothing else."""
+        """Build the documented response: model, answers, usage.
+
+        Nothing else.
+        """
         answers = to_answers(probs, context["meta"])
         return {
             "model": context["model"],
@@ -80,8 +87,12 @@ class KevSystemOneAPI(ls.LitAPI):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Serve a Kev decision model over LitServe.")
-    parser.add_argument("--run", default=DEFAULT_RUN, help="Hub id or local run directory")
+    parser = argparse.ArgumentParser(
+        description="Serve a Kev decision model over LitServe."
+    )
+    parser.add_argument(
+        "--run", default=DEFAULT_RUN, help="Hub id or local run directory"
+    )
     parser.add_argument("--port", type=int, default=8000)
     args = parser.parse_args()
 
