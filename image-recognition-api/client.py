@@ -1,7 +1,10 @@
 import argparse
-import os
-import requests
 import logging
+import os
+
+import requests
+
+logger = logging.getLogger(__name__)
 
 
 def parse_arguments():
@@ -20,7 +23,7 @@ def parse_arguments():
 
 def check_image_file(image_path):
     if not os.path.isfile(image_path):
-        logging.error(f"Image file '{image_path}' does not exist.")
+        logger.error(f"Image file '{image_path}' does not exist.")
         return False
     return True
 
@@ -32,11 +35,11 @@ def send_image_to_server(image_path, url):
             response = requests.post(url, files=files)
 
         if response.status_code == 200:
-            logging.info("Result: %s", response.json())
+            logger.info("Result: %s", response.json())
         else:
-            logging.error("Error: %s %s", response.status_code, response.text)
-    except Exception as e:
-        logging.error("An error occurred: %s", str(e))
+            logger.error("Error: %s %s", response.status_code, response.text)
+    except Exception:
+        logger.exception("An error occurred")
 
 
 def main():

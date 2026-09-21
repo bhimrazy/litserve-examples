@@ -1,5 +1,7 @@
-from locust import HttpUser, TaskSet, task, between
+from typing import ClassVar
+
 from benchmark import INPUT_TEXT
+from locust import HttpUser, TaskSet, between, task
 
 
 class EmbeddingsTest(TaskSet):
@@ -15,7 +17,7 @@ class EmbeddingsTest(TaskSet):
 
 
 class EmbeddingsUser(HttpUser):
-    tasks = [EmbeddingsTest]
+    tasks: ClassVar = [EmbeddingsTest]
     wait_time = between(1, 3)  # Adjust wait time as needed
 
 

@@ -7,6 +7,8 @@ import requests
 import supervision as sv
 from PIL import Image
 
+logger = logging.getLogger(__name__)
+
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
@@ -24,7 +26,7 @@ def parse_arguments():
 
 def check_image_file(image_path):
     if not os.path.isfile(image_path):
-        logging.error(f"Image file '{image_path}' does not exist.")
+        logger.error(f"Image file '{image_path}' does not exist.")
         return False
     return True
 
@@ -36,7 +38,7 @@ def send_image_to_server(image_path, url):
             response = requests.post(url, files=files)
 
         if response.status_code == 200:
-            logging.info("Result: %s", response.json())
+            logger.info("Result: %s", response.json())
 
             detections = response.json()["detections"]
             sv_detections = sv.Detections(
@@ -63,12 +65,12 @@ def send_image_to_server(image_path, url):
             )
             file_path = os.path.join(os.path.dirname(image_path), file_name)
             annotated_image.save(file_path)
-            logging.info("Annotated image saved to: %s", file_path)
+            logger.info("Annotated image saved to: %s", file_path)
 
         else:
-            logging.error("Error: %s %s", response.status_code, response.text)
-    except Exception as e:
-        logging.error("An error occurred: %s", str(e))
+            logger.error("Error: %s %s", response.status_code, response.text)
+    except Exception:
+        logger.exception("An error occurred")
 
 
 def main():

@@ -62,9 +62,7 @@ class DeepSeekR1API(ls.LitAPI):
         generation_thread.start()
 
         # Yield generated text from the streamer
-        for text in self.streamer:
-            # print(f"\033[92m{text or ''}\033[0m", end="", flush=True)
-            yield text
+        yield from self.streamer
 
         # Ensure the generation thread has finished
         generation_thread.join()

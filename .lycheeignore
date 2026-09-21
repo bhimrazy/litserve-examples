@@ -1,0 +1,5 @@
+# GitHub returns 404 for /stargazers to logged-out clients (it is gated behind
+# sign-in), so the link checker cannot verify it even though it resolves fine
+# in a browser. Verify with: curl -o /dev/null -w '%{http_code}' \
+#   https://github.com/pytorch/pytorch/stargazers  ->  404
+https://github.com/.*/stargazers

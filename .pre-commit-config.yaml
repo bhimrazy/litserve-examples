@@ -37,11 +37,15 @@ repos:
         #args: ["--write-changes"] # uncomment if you want to get automatic fixing
 
   - repo: https://github.com/PyCQA/docformatter
-    rev: v1.7.7
+    rev: v1.7.8
     hooks:
       - id: docformatter
         additional_dependencies: [tomli]
         args: ["--in-place"]
+        # 1.7.8 misreads the multi-line HTML passed to st.markdown() as a
+        # docstring and re-indents its trailing comma, which ruff-format then
+        # undoes -- the two hooks never converge on this file.
+        exclude: ^deepseek-r1/app\.py$
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
