@@ -1,4 +1,4 @@
-from typing import List, Literal, Union
+from typing import Literal
 
 from pydantic import BaseModel, HttpUrl
 
@@ -12,7 +12,7 @@ class ImageInput(BaseModel):
 
 
 class EmbeddingRequest(BaseModel):
-    input: Union[str, List[Union[str, TextInput, ImageInput]]]
+    input: str | list[str | TextInput | ImageInput]
     model: Literal["jina-clip-v2"]
     encoding_format: Literal["float"] = "float"
     dimensions: int = 512
@@ -21,7 +21,7 @@ class EmbeddingRequest(BaseModel):
 
 # Model to represent a single embedding
 class Embedding(BaseModel):
-    embedding: List[float]
+    embedding: list[float]
     index: int
     object: Literal["embedding"] = "embedding"
 
@@ -34,7 +34,7 @@ class Usage(BaseModel):
 
 # Response model for embedding request
 class EmbeddingResponse(BaseModel):
-    data: List[Embedding]
+    data: list[Embedding]
     model: Literal["jina-clip-v2"]
     object: Literal["list"] = "list"
     usage: Usage

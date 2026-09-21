@@ -7,12 +7,12 @@ https://github.com/Lightning-AI/LitServe/blob/main/tests/parity_fastapi/benchmar
 import asyncio
 import logging
 import time
-from typing import Dict, Tuple
 
 import httpx
 from tqdm import tqdm
 
 logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 SERVER_URL = "http://localhost:{}/v1/embeddings"
 
@@ -29,7 +29,7 @@ Users can self-host LitServe for full control or opt for a managed deployment vi
 
 async def send_embedding_request(
     client: httpx.AsyncClient, port: int = 8000, num_inputs: int = 1
-) -> Tuple[float, int]:
+) -> tuple[float, int]:
     """Send a request to the embeddings API and return the response time and
     status code."""
     payload = {
@@ -42,7 +42,7 @@ async def send_embedding_request(
         response = await client.post(SERVER_URL.format(port), json=payload)
         status_code = response.status_code
     except httpx.RequestError as e:
-        logging.error(f"Request failed: {e}")
+        logger.error(f"Request failed: {e}")
         status_code = 500  # Internal Server Error
     end_time = time.time()
     return end_time - start_time, status_code
@@ -54,7 +54,7 @@ async def benchmark(
     concurrency: int = 100,
     port: int = 8000,
     run_id: int = 0,
-) -> Dict[str, float]:
+) -> dict[str, float]:
     """Run a benchmark on the given send_request function."""
     start_time = time.time()  # Start the benchmark timer
 
@@ -98,10 +98,10 @@ async def benchmark(
     }
 
     # Log the metrics
-    logging.info("-" * 50)
+    logger.info("-" * 50)
     for key, value in metrics.items():
-        logging.info(f"{key}: {value}")
-    logging.info("-" * 50)
+        logger.info(f"{key}: {value}")
+    logger.info("-" * 50)
 
     return metrics
 
@@ -118,7 +118,7 @@ async def run_benchmark(runs: int = 10, warmup: int = 1, **config) -> None:
         "Total Runs": runs,
         "Warmup Runs": warmup,
     }
-    for key in results[0].keys():
+    for key in results[0]:
         avg_metrics[key] = sum(result[key] for result in results) / runs
 
     print("Average Benchmark Metrics")
