@@ -4,14 +4,11 @@ import os
 import threading
 
 import litserve as ls
+from cache import PrefixCache
 from fastapi import HTTPException
-from utils import ensure_kev_importable, sync_device
-
-ensure_kev_importable()
-
-from cache import PrefixCache  # noqa: E402
-from kev.api import SystemOneRequest, output_tokens, to_answers, to_record  # noqa: E402
-from kev.evaluate import load, resolve_run  # noqa: E402
+from kev.api import SystemOneRequest, output_tokens, to_answers, to_record
+from kev.evaluate import load, resolve_run
+from utils import sync_device
 
 DEFAULT_RUN = os.environ.get("KEV_RUN", "jaredpalmer/kev-0.8b")
 # Per-branch cap mirrors Jev's, bounded by the base model's window.

@@ -31,7 +31,7 @@ Ask three kinds of question:
 
 - Python 3.12+
 - `pip` (or [`uv`](https://docs.astral.sh/uv/))
-- ~4 GB disk for the default checkpoint, downloaded on first run
+- ~1.9 GB download on first run: Kev's adapter (~65 MB) plus the Qwen3.5-0.8B base
 
 ### Setup
 
@@ -44,45 +44,13 @@ cd litserve-examples/kev-decisions
 pip install -r requirements.txt
 ```
 
-> [!WARNING]
-> Do not run `pip install kev`. It succeeds, but PyPI's `kev` is an unrelated key-value
-> store ORM — not this project. Kev publishes no wheel and no sdist; its GitHub releases
-> contain model checkpoints only.
-
-Kev itself is **not pip-installable**, so it cannot be pinned in `requirements.txt`.
-Upstream's `pyproject.toml` has no package-discovery config, so setuptools refuses its flat
-layout and any install that builds it — a git pin or `pip install -e` included — fails with
-`Multiple top-level packages discovered in a flat-layout`. Clone a pinned revision and point
-`KEV_HOME` at the checkout:
-
-```bash
-git clone https://github.com/jaredpalmer/kev ~/kev
-git -C ~/kev checkout cd2054cb9f73c0ca76bb4daa2f18559b51deb839  # or omit for latest
-export KEV_HOME=~/kev
-```
-
-`server.py` also looks in `./kev` and `../kev`, so a sibling clone works without the env var.
-
-<details>
-<summary>Prefer a real install? Upstream needs six lines.</summary>
-
-The build fails only because `pyproject.toml` declares no build backend or package list.
-Appending this to your clone's `pyproject.toml` makes `pip install ./kev` work, after which
-`KEV_HOME` is unnecessary:
-
-```toml
-[build-system]
-requires = ["setuptools>=77"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools]
-packages = ["kev"]
-```
-
-Worth sending upstream as a pull request — it is the actual fix, and it would let this
-example pin Kev in `requirements.txt` like any other dependency.
-
-</details>
+> [!NOTE]
+> `requirements.txt` pins Kev to a fork that adds the packaging config upstream is missing.
+> Upstream declares no build backend or package list, so `pip install` aborts with
+> `Multiple top-level packages discovered in a flat-layout`. The fix is
+> [proposed upstream](https://github.com/jaredpalmer/kev/pull/14); switch the URL back to
+> `jaredpalmer/kev` once it lands. Do not `pip install kev` — PyPI's `kev` is an unrelated
+> key-value store ORM.
 
 ### Run
 
@@ -160,7 +128,7 @@ reconstructions appeared within days. Treat upstream as young code.
 ```
 client.py  ->  POST /v1/systemone  ->  server.py (LitServe)
                                           |
-                                          +-- utils.py  import shim, device sync
+                                          +-- utils.py  device sync
                                           +-- cache.py  LRU state-prefix cache
                                           +-- kev.api   request model, record, answers
 ```
