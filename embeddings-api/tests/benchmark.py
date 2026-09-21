@@ -55,7 +55,6 @@ def benchmark(
     run_id: int = 0,
 ) -> dict:
     """Run a benchmark on the given send_request function."""
-
     start_time = time.time()  # Start the benchmark timer
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as executor:

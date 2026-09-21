@@ -35,7 +35,6 @@ class EmbeddingAPI(ls.LitAPI):
     ) -> list[list[float]]:
         """Generate embeddings for text and image inputs, preserving the input
         order."""
-
         sentences, image_urls, input_types = inputs
         text_embeddings, image_embeddings = [], []
 
