@@ -1,6 +1,6 @@
 import os
 from collections import OrderedDict
-from typing import Any, Tuple
+from typing import Any
 
 # States to keep; 0 disables the cache entirely.
 CACHE_SIZE = int(os.environ.get("KEV_PREFIX_CACHE", "4"))
@@ -27,7 +27,7 @@ class PrefixCache:
         self.misses = 0
         self._prefixes: OrderedDict[Any, Any] = OrderedDict()
 
-    def probs(self, model: Any, enc: dict) -> Tuple[Any, bool]:
+    def probs(self, model: Any, enc: dict) -> tuple[Any, bool]:
         """Score an encoded request, reusing the state prefix when possible.
 
         Args:

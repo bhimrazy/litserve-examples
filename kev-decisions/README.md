@@ -153,6 +153,6 @@ so each request gets its own pass.
 
 ## 🔗 Links
 
-- [Kev](https://github.com/jaredpalmer/kev) · [checkpoints](https://huggingface.co/collections/jaredpalmer/kev-6aad9d0ea49f2589665e07cd)
+- [Kev](https://github.com/jaredpalmer/kev) · [checkpoints](https://huggingface.co/collections/jaredpalmer/kev)
 - [TypeSafe's Jev announcement](https://typesafe.ai/blog/introducing-system-one-models-and-jev) · [API docs](https://docs.typesafe.ai/api)
 - [LitServe docs](https://lightning.ai/docs/litserve)
