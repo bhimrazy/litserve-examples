@@ -1,0 +1,21 @@
+litserve==0.2.17
+httpx==0.28.1
+
+# Kev is a required dependency but is NOT pip-installable today, so it cannot be pinned
+# here. Upstream's pyproject.toml has no package-discovery config, and any install that
+# builds the package -- including a git pin and `pip install -e` -- fails with:
+#   error: Multiple top-level packages discovered in a flat-layout:
+#          ['kev', 'runs', 'evals', 'space', 'playground', 'experiments']
+# so the line you would expect here does NOT work:
+#   kev @ git+https://github.com/jaredpalmer/kev@cd2054cb9f73c0ca76bb4daa2f18559b51deb839
+# Clone that revision and point KEV_HOME at it instead -- see the README. Uncomment the
+# line above once upstream ships package-discovery config.
+# Do NOT add a bare `kev` here: PyPI's `kev` is an unrelated key-value store ORM. There is
+# no wheel or sdist for this project; its GitHub releases hold model checkpoints only.
+# Kev's own runtime dependencies are pinned below so the clone has what it needs.
+torch==2.8.0
+transformers==5.17.0
+peft==0.21.0
+accelerate==1.15.0
+huggingface-hub==1.32.0
+numpy==2.5.3
