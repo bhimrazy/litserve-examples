@@ -1,4 +1,4 @@
-from typing import List, Literal, Union
+from typing import Literal
 
 from fastapi import FastAPI
 from fastembed import TextEmbedding
@@ -9,19 +9,19 @@ model = TextEmbedding("jinaai/jina-embeddings-v2-small-en")
 
 
 class EmbeddingRequest(BaseModel):
-    input: Union[str, List[str]]
+    input: str | list[str]
     model: str
     encoding_format: str
 
 
 class Embedding(BaseModel):
     index: int
-    embedding: List[float]
+    embedding: list[float]
     object: Literal["embedding"] = "embedding"
 
 
 class EmbeddingResponse(BaseModel):
-    data: List[Embedding]
+    data: list[Embedding]
     model: str
     object: str
 

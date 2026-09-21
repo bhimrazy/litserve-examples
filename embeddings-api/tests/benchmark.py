@@ -8,12 +8,12 @@ import concurrent.futures
 import logging
 import os
 import time
-from typing import Tuple
 
 import requests
 from tqdm import tqdm
 
 logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 SERVER_URL = os.getenv("SERVER_URL", "http://localhost:{}/v1/embeddings")
 
@@ -28,7 +28,7 @@ Users can self-host LitServe for full control or opt for a managed deployment vi
 """
 
 
-def send_embedding_request(port: int = 8000, num_inputs: int = 1) -> Tuple[float, int]:
+def send_embedding_request(port: int = 8000, num_inputs: int = 1) -> tuple[float, int]:
     """Send a request to the embeddings API and return the response time and
     status code."""
     payload = {
@@ -41,7 +41,7 @@ def send_embedding_request(port: int = 8000, num_inputs: int = 1) -> Tuple[float
         response = requests.post(SERVER_URL.format(port), json=payload)
         status_code = response.status_code
     except requests.RequestException as e:
-        logging.error(f"Request failed: {e}")
+        logger.error(f"Request failed: {e}")
         status_code = 500  # Internal Server Error
     end_time = time.time()
     return end_time - start_time, status_code
@@ -98,10 +98,10 @@ def benchmark(
     }
 
     # Log the metrics
-    logging.info("-" * 50)
+    logger.info("-" * 50)
     for key, value in metrics.items():
-        logging.info(f"{key}: {value}")
-    logging.info("-" * 50)
+        logger.info(f"{key}: {value}")
+    logger.info("-" * 50)
 
     return metrics
 
@@ -118,15 +118,15 @@ def run_benchmark(runs: int = 10, warmup: int = 1, **config) -> dict:
         "Total Runs": runs,
         "Warmup Runs": warmup,
     }
-    for key in results[0].keys():
+    for key in results[0]:
         avg_metrics[key] = sum(result[key] for result in results) / runs
 
-    logging.info("Average Benchmark Metrics")
-    logging.info("-" * 50)
+    logger.info("Average Benchmark Metrics")
+    logger.info("-" * 50)
 
     for key, value in avg_metrics.items():
-        logging.info(f"{key}: {value}")
-    logging.info("-" * 50)
+        logger.info(f"{key}: {value}")
+    logger.info("-" * 50)
 
     return avg_metrics
 

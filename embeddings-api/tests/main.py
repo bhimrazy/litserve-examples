@@ -9,6 +9,7 @@ import torch
 from benchmark import run_benchmark
 
 logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 device = "cuda" if torch.cuda.is_available() else "cpu"
 device = "mps" if torch.backends.mps.is_available() else device
 
@@ -23,34 +24,34 @@ def run_python_script(file_name, wait_time=10):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
-            logging.info(f"Running the python script: {file_name}")
+            logger.info(f"Running the python script: {file_name}")
             process = subprocess.Popen(
                 ["python", file_name],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
             )
-            logging.info("Waiting for the server to start...")
+            logger.info("Waiting for the server to start...")
             time.sleep(wait_time)
 
             try:
                 return func(*args, **kwargs)
             except Exception as e:
-                logging.error(f"Error occurred: {e}")
+                logger.error(f"Error occurred: {e}")
                 raise
             finally:
-                logging.info("Terminating the server...")
+                logger.info("Terminating the server...")
                 parent = psutil.Process(process.pid)
                 children = parent.children(recursive=True)
                 for child in children:
                     child.terminate()
-                gone, still_alive = psutil.wait_procs(children, timeout=3)
+                _gone, still_alive = psutil.wait_procs(children, timeout=3)
                 for p in still_alive:
-                    logging.warning(f"Force killing process {p.pid}")
+                    logger.warning(f"Force killing process {p.pid}")
                     p.kill()
                 parent.terminate()
                 parent.wait(3)
                 if parent.is_running():
-                    logging.warning(f"Force killing process {parent.pid}")
+                    logger.warning(f"Force killing process {parent.pid}")
                     parent.kill()
 
         return wrapper
@@ -72,7 +73,7 @@ def check_health(port):
 @run_python_script("embeddings-api/tests/fastapi_server.py")
 def run_fastapi_benchmark(num_of_runs, warmup):
     port = 8001
-    logging.info(f"Running the benchmark on port {port}")
+    logger.info(f"Running the benchmark on port {port}")
     check_health(port)
     run_benchmark(
         runs=num_of_runs, warmup=warmup, port=port, num_of_inputs=1, **CONF[device]
@@ -82,7 +83,7 @@ def run_fastapi_benchmark(num_of_runs, warmup):
 @run_python_script("embeddings-api/server.py")
 def run_litserve_benchmark(num_of_runs, warmup):
     port = 8000
-    logging.info(f"Running the benchmark on port {port}")
+    logger.info(f"Running the benchmark on port {port}")
     check_health(port)
     run_benchmark(
         runs=num_of_runs, warmup=warmup, port=port, num_of_inputs=1, **CONF[device]
@@ -92,7 +93,7 @@ def run_litserve_benchmark(num_of_runs, warmup):
 @run_python_script("embeddings-api/tests/litserve_server_with_multi_worker.py")
 def run_litserve_multi_worker_benchmark(num_of_runs, warmup):
     port = 8000
-    logging.info(f"Running the benchmark on port {port}")
+    logger.info(f"Running the benchmark on port {port}")
     check_health(port)
     run_benchmark(
         runs=num_of_runs, warmup=warmup, port=port, num_of_inputs=1, **CONF[device]
@@ -103,17 +104,17 @@ def main():
     num_of_runs = 10
     warmup = 2
 
-    logging.info(f"Running the benchmark on device: {device}")
-    logging.info(f"Number of runs: {num_of_runs}")
-    logging.info(f"Warmup: {warmup}")
+    logger.info(f"Running the benchmark on device: {device}")
+    logger.info(f"Number of runs: {num_of_runs}")
+    logger.info(f"Warmup: {warmup}")
 
-    logging.info("Running the benchmark on FastAPI server")
+    logger.info("Running the benchmark on FastAPI server")
     run_fastapi_benchmark(num_of_runs, warmup)
 
-    logging.info("Running the benchmark on LitServe server")
+    logger.info("Running the benchmark on LitServe server")
     run_litserve_benchmark(num_of_runs, warmup)
 
-    logging.info("Running the benchmark on LitServe server with multi worker")
+    logger.info("Running the benchmark on LitServe server with multi worker")
     run_litserve_multi_worker_benchmark(num_of_runs, warmup)
 
 

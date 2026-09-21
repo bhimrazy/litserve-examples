@@ -1,4 +1,5 @@
 import argparse
+
 from openai import OpenAI
 
 client = OpenAI(

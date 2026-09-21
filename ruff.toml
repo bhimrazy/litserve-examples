@@ -1,0 +1,7 @@
+# Pin the rule set explicitly. Ruff's defaults expand between releases, and CI
+# installs the latest ruff, so relying on them lets an upstream release turn a
+# green main red without a single line of this repo changing.
+line-length = 120
+
+[lint]
+select = ["E4", "E7", "E9", "F", "I", "UP", "B", "SIM", "LOG", "RUF"]

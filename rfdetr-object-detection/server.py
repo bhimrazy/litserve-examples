@@ -41,6 +41,7 @@ class ObjectDetectionAPI(LitAPI):
                     detections.class_id,
                     detections.confidence,
                     detections.xyxy,
+                    strict=True,
                 )
             ]
         }
