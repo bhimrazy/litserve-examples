@@ -1,0 +1,7 @@
+litserve==0.2.17
+httpx==0.28.1
+typesafe-sdk==0.7.1
+
+# Kev is not on PyPI -- a bare `kev` there is an unrelated key-value store ORM.
+# Pinned past the commit that made the repo pip-installable; the v0.1.0 tag predates it.
+kev @ git+https://github.com/jaredpalmer/kev@90990a5fac2995b9faa3190f7d437e84f2067768
