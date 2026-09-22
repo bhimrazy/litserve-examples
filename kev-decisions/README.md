@@ -170,12 +170,25 @@ python benchmark.py        # report
 python benchmark.py --ci   # fail if a speedup collapses
 ```
 
-On an M-series Mac with `kev-0.8b`, over a ~500-token support thread:
+It prints the host, device and checkpoint it measured on, then the two comparisons.
+Throughput is quoted in **questions per second**, not requests per second, because the
+packed comparison moves the same questions either way — counting requests would score the
+packed side as *slower* for doing identical work in fewer calls.
 
-| | slow path | fast path | speedup |
-| --- | --- | --- | --- |
-| prefix cache | uncached 611ms | cached 80ms | **7.7x** |
-| packed request | separate 1867ms | packed 725ms | **2.6x** |
+Over a ~500-token support thread with `kev-0.8b`, on an M-series Mac (mps, 4 torch threads)
+and on the GitHub-hosted CPU runner CI uses (`ubuntu-latest`, 4 vCPU, `UV_TORCH_BACKEND=cpu`):
+
+| | Mac (mps) | CI (cpu) |
+| --- | --- | --- |
+| prefix cache, uncached | 615ms · 1.6 q/s | 3798ms · 0.26 q/s |
+| prefix cache, cached | 81ms · 12.4 q/s | 407ms · 2.46 q/s |
+| **cache speedup** | **7.6x** | **9.3x** |
+| packed, separate | 1889ms · 1.6 q/s | 11185ms · 0.27 q/s |
+| packed, together | 723ms · 4.2 q/s | 4163ms · 0.72 q/s |
+| **packing speedup** | **2.6x** | **2.7x** |
+
+Absolute latency differs by roughly 6x between the two machines while both ratios hold,
+which is the reason the assertion is on the ratio.
 
 Both gains come from not re-reading the state, so both need a state big enough to dominate
 the branches — which is also why the benchmark uses a long thread rather than the short

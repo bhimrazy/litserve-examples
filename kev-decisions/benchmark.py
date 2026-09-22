@@ -19,10 +19,13 @@ one long block-causal sequence costs more than four tiny independent ones.
 """
 
 import argparse
+import os
+import platform
 import statistics
 import time
 
 import httpx
+import torch
 from queries import CACHE_QUESTIONS, EXAMPLES, long_thread
 
 URL = "http://127.0.0.1:8000/v1/systemone"
@@ -30,6 +33,41 @@ REPS = 3
 # Deliberately loose. The point is to catch the optimization silently breaking,
 # not to police a few percent of drift on a noisy runner.
 MIN_SPEEDUP = 1.3
+
+
+def system_info() -> list[tuple[str, str]]:
+    """The box the numbers came from, so a pasted table stays interpretable.
+
+    The client cannot ask the server what it loaded -- there is no info
+    route, and adding one would widen an API whose whole point is that
+    it is exactly TypeSafe's. Everything here is therefore read locally,
+    which is accurate because the server runs on the same host in both
+    the CI job and the README's setup. ``server.log`` has the
+    authoritative device line.
+    """
+    if torch.cuda.is_available():
+        device = f"cuda, {torch.cuda.get_device_name(0)}"
+    elif torch.backends.mps.is_available():
+        device = "mps"
+    else:
+        device = "cpu"
+
+    try:
+        memory = os.sysconf("SC_PHYS_PAGES") * os.sysconf("SC_PAGE_SIZE") / 1e9
+        host = f"{platform.system()} {platform.machine()}, {os.cpu_count()} vCPU, {memory:.1f} GB"
+    except (ValueError, OSError):  # SC_PHYS_PAGES is not portable
+        host = f"{platform.system()} {platform.machine()}, {os.cpu_count()} vCPU"
+
+    return [
+        ("host", host),
+        (
+            "runtime",
+            f"python {platform.python_version()}, torch {torch.__version__}, "
+            f"{torch.get_num_threads()} threads",
+        ),
+        ("device", f"{device} (auto-selected; the server shares this host)"),
+        ("run", os.environ.get("KEV_RUN", "jaredpalmer/kev-0.8b")),
+    ]
 
 
 def timed(client: httpx.Client, state, questions: dict) -> float:
@@ -100,23 +138,48 @@ def main() -> None:
         cold, warm = prefix_cache(client)
         separate, packed = packed_vs_separate(client)
 
+    print("\nsystem")
+    for key, value in system_info():
+        print(f"  {key:<8} {value}")
+
+    # Questions per second, not requests per second: the packed comparison moves
+    # the same questions either way, so counting requests would score the packed
+    # side as slower for doing the identical work in fewer calls.
     rows = [
-        ("prefix cache", "uncached", cold, "cached", warm),
-        ("packed request", "separate", separate, "packed", packed),
+        ("prefix cache", "uncached", cold, "cached", warm, len(CACHE_QUESTIONS[0])),
+        (
+            "packed request",
+            "separate",
+            separate,
+            "packed",
+            packed,
+            len(CACHE_QUESTIONS),
+        ),
     ]
 
-    print(f"\n{'':<16}{'slow path':>22}{'fast path':>20}{'speedup':>10}")
-    failures = []
-    for label, slow_name, slow, fast_name, fast in rows:
-        speedup = slow / fast
-        print(
-            f"{label:<16}{f'{slow_name} {slow:.0f}ms':>22}"
-            f"{f'{fast_name} {fast:.0f}ms':>20}{f'{speedup:.2f}x':>10}"
+    def line(
+        label: str, name: str, elapsed: float, questions: int, tail: str = ""
+    ) -> str:
+        rate = questions / (elapsed / 1000)
+        return (
+            f"{label:<16}{name:<10}{elapsed:>8.0f}ms{rate:>9.2f} q/s{tail:>10}".rstrip()
         )
+
+    print()
+    failures = []
+    for label, slow_name, slow, fast_name, fast, questions in rows:
+        speedup = slow / fast
+        # Label on the first line of the pair, speedup on the second.
+        print(line(label, slow_name, slow, questions))
+        print(line("", fast_name, fast, questions, f"{speedup:.2f}x"))
         if speedup < MIN_SPEEDUP:
             failures.append(f"{label}: {speedup:.2f}x below {MIN_SPEEDUP}x")
 
-    print(f"\nmedian of {REPS} runs; ratios, not absolute times, are the signal")
+    print(
+        f"\nmedian of {REPS} runs. q/s counts questions answered, since the packed\n"
+        "comparison moves the same questions either way. Ratios, not absolute\n"
+        "times, are what carries across machines."
+    )
 
     if args.ci and failures:
         raise SystemExit("benchmark regression -- " + "; ".join(failures))
