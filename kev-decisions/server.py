@@ -7,7 +7,7 @@ import litserve as ls
 from cache import PrefixCache
 from fastapi import HTTPException
 from kev.api import SystemOneRequest, output_tokens, to_answers, to_record
-from kev.evaluate import load, resolve_run
+from kev.checkpoint import load, resolve_run
 from utils import sync_device
 
 DEFAULT_RUN = os.environ.get("KEV_RUN", "jaredpalmer/kev-0.8b")

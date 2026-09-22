@@ -45,12 +45,8 @@ pip install -r requirements.txt
 ```
 
 > [!NOTE]
-> `requirements.txt` pins Kev to a fork that adds the packaging config upstream is missing.
-> Upstream declares no build backend or package list, so `pip install` aborts with
-> `Multiple top-level packages discovered in a flat-layout`. The fix is
-> [proposed upstream](https://github.com/jaredpalmer/kev/pull/14); switch the URL back to
-> `jaredpalmer/kev` once it lands. Do not `pip install kev` — PyPI's `kev` is an unrelated
-> key-value store ORM.
+> Kev is not published to PyPI, so `requirements.txt` installs it from git at a pinned
+> commit. Do not `pip install kev` — PyPI's `kev` is an unrelated key-value store ORM.
 
 ### Run
 

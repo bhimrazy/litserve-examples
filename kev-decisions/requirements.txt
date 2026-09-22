@@ -1,12 +1,6 @@
 litserve==0.2.17
 httpx==0.28.1
 
-# Kev, pinned to a fork that adds the packaging config upstream is missing. Upstream's
-# pyproject.toml declares no build backend or package list, so setuptools auto-discovery
-# aborts and `pip install git+https://github.com/jaredpalmer/kev` fails with
-# "Multiple top-level packages discovered in a flat-layout". Fix proposed upstream in
-# https://github.com/jaredpalmer/kev/pull/14 -- point this back at jaredpalmer/kev once
-# it merges. Pin the commit (@e86d14c49da56b44a63a99ae90ff41eb969af4a9) instead of the
-# branch if you need a fully immutable reference.
-# Note: do NOT use a bare `kev` here -- PyPI's `kev` is an unrelated key-value store ORM.
-kev @ git+https://github.com/bhimrazy/kev@fix/packaging
+# Kev is not on PyPI -- a bare `kev` there is an unrelated key-value store ORM.
+# Pinned past the commit that made the repo pip-installable; the v0.1.0 tag predates it.
+kev @ git+https://github.com/jaredpalmer/kev@90990a5fac2995b9faa3190f7d437e84f2067768
