@@ -58,6 +58,12 @@ python server.py
 python client.py
 ```
 
+`client.py` walks a small collection of example requests adapted from Kev's
+[playground presets](https://github.com/jaredpalmer/kev/blob/main/space/presets.py) —
+the three question types together, ordered scores, a structured state, and a probe
+showing that questions cannot read each other. `test.sh` runs those, the SDK client and
+the benchmark in one go, which is what CI executes.
+
 Pick a different checkpoint with `--run` or `KEV_RUN`:
 
 ```bash
@@ -84,11 +90,17 @@ curl -X POST http://127.0.0.1:8000/v1/systemone \
 
 ### Using TypeSafe's SDK
 
-The wire format is Jev's, so TypeSafe's own SDK (`pip install typesafe-sdk`) should work
-against this server by pointing it at `http://127.0.0.1:8000`. Two caveats, both untested
-here: the SDK's `base_url` override is not documented, and its examples pass `state` as a
-dict (`{"document": "..."}`) while Kev's own examples pass a plain string. Verify before
-relying on SDK compatibility. `client.py` uses `httpx` instead, so it needs no API key.
+The wire format is Jev's, so TypeSafe's own SDK works against this server unchanged —
+`client_sdk.py` runs the same requests as `client.py` and gets the same numbers back:
+
+```bash
+python client_sdk.py
+```
+
+The only difference from talking to the hosted API is `base_url`. `api_key` is required by
+the client but ignored here, since this server has no auth. Both a plain string and a dict
+(`{"document": "..."}`) are accepted as `state`. `client.py` uses `httpx` instead, so it
+needs no SDK at all.
 
 ## 🧠 Choosing a model
 
@@ -146,6 +158,31 @@ on the `LitAPI` instance so each worker gets its own.
 pass, but Kev already packs every question of a request into a single block-causal sequence.
 Stacking two users' states would break the prefix key and force ragged padding for no gain,
 so each request gets its own pass.
+
+## 📊 Benchmark
+
+`benchmark.py` measures both of the above. It reports ratios rather than absolute times,
+because latency depends entirely on the box while the ratio between two requests measured
+back to back on the same box stays meaningful:
+
+```bash
+python benchmark.py        # report
+python benchmark.py --ci   # fail if a speedup collapses
+```
+
+On an M-series Mac with `kev-0.8b`, over a ~500-token support thread:
+
+| | slow path | fast path | speedup |
+| --- | --- | --- | --- |
+| prefix cache | uncached 611ms | cached 80ms | **7.7x** |
+| packed request | separate 1867ms | packed 725ms | **2.6x** |
+
+Both gains come from not re-reading the state, so both need a state big enough to dominate
+the branches — which is also why the benchmark uses a long thread rather than the short
+examples in `queries.py`. On a short state there is nothing to amortize and packing is a
+slight *loss* (~0.9x on the four-question triage example), since one long block-causal
+sequence costs more than four tiny independent ones. The prefix cache has its own floor,
+`KEV_PREFIX_MIN_TOKENS` (384 by default), below which it does not engage at all.
 
 ## 🔗 Links
 
