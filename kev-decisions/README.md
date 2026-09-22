@@ -176,19 +176,22 @@ packed comparison moves the same questions either way — counting requests woul
 packed side as *slower* for doing identical work in fewer calls.
 
 Over a ~500-token support thread with `kev-0.8b`, on an M-series Mac (mps, 4 torch threads)
-and on the GitHub-hosted CPU runner CI uses (`ubuntu-latest`, 4 vCPU, `UV_TORCH_BACKEND=cpu`):
+and on the CPU runner CI uses (`ubuntu-latest`, 4 vCPU, torch `+cpu`, 2 threads):
 
 | | Mac (mps) | CI (cpu) |
 | --- | --- | --- |
-| prefix cache, uncached | 615ms · 1.6 q/s | 3798ms · 0.26 q/s |
-| prefix cache, cached | 81ms · 12.4 q/s | 407ms · 2.46 q/s |
-| **cache speedup** | **7.6x** | **9.3x** |
-| packed, separate | 1889ms · 1.6 q/s | 11185ms · 0.27 q/s |
-| packed, together | 723ms · 4.2 q/s | 4163ms · 0.72 q/s |
+| prefix cache, uncached | 615ms · 1.6 q/s | 2.4–3.8s · 0.3–0.4 q/s |
+| prefix cache, cached | 81ms · 12.4 q/s | 0.3–0.4s · 2.5–3.6 q/s |
+| **cache speedup** | **7.6x** | **8.8–9.3x** |
+| packed, separate | 1889ms · 1.6 q/s | 7.4–11.2s · 0.3–0.4 q/s |
+| packed, together | 723ms · 4.2 q/s | 2.7–4.2s · 0.7–1.1 q/s |
 | **packing speedup** | **2.6x** | **2.7x** |
 
-Absolute latency differs by roughly 6x between the two machines while both ratios hold,
-which is the reason the assertion is on the ratio.
+The CI column is a range across runs for a reason: absolute times on a shared runner moved
+about 35% between two consecutive runs of the same commit, while the ratios shifted by a
+few percent. That gap — roughly 6x between the two machines, 35% between runs on one of
+them, against ratios that barely move — is why `--ci` asserts on the ratio and not on a
+latency budget.
 
 Both gains come from not re-reading the state, so both need a state big enough to dominate
 the branches — which is also why the benchmark uses a long thread rather than the short
