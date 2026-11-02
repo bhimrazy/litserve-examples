@@ -69,8 +69,8 @@ url = "http://127.0.0.1:8000/speech"
 data = {
     "text": "Hello! This is a test of the Chatterbox TTS API.",
     "exaggeration": 0.5,  # Default: 0.5
-    "cfg": 0.5,           # Default: 0.5  
-    "temperature": 0.8    # Default: 0.8
+    "cfg": 0.5,  # Default: 0.5
+    "temperature": 0.8,  # Default: 0.8
 }
 
 response = requests.post(url, json=data)
@@ -87,7 +87,7 @@ data = {
     "text": "This will sound like the reference speaker!",
     "audio_prompt": "path/to/reference/audio.wav",
     "exaggeration": 0.7,
-    "cfg": 0.3
+    "cfg": 0.3,
 }
 
 response = requests.post(url, json=data)
@@ -101,13 +101,13 @@ import base64
 # Read and encode reference audio
 with open("reference.wav", "rb") as f:
     audio_data = f.read()
-audio_base64 = base64.b64encode(audio_data).decode('utf-8')
+audio_base64 = base64.b64encode(audio_data).decode("utf-8")
 
 data = {
     "text": "Voice cloning with base64 encoded audio!",
     "audio_prompt": audio_base64,
     "exaggeration": 0.6,
-    "cfg": 0.4
+    "cfg": 0.4,
 }
 
 response = requests.post(url, json=data)

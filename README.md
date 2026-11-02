@@ -142,6 +142,7 @@ class MyAPI(LitAPI):
     def predict(self, x):
         return self.model(x)  # Your custom logic here
 
+
 server = LitServer(MyAPI(), accelerator="auto")  # Auto-optimization included!
 ```
 
